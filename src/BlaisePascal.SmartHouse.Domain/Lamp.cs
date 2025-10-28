@@ -1,7 +1,9 @@
 ﻿namespace BlaisePascal.SmartHouse.Domain
 {
-    public class Class1
+    public class Lamp
     {
-
+        int a = 0;
+        string b = "test";
+        int prova;
     }
 }

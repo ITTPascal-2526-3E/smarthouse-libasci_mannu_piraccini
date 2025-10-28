@@ -3,9 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36212.18 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6C83A596-D32D-B35F-00DD-F0C99B673980}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{15CE8A58-859C-4555-8CFD-C0188E57F148}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{72484C1C-548F-4F03-A921-9C1837AA34B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Domain", "src\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj", "{621FBCAB-A965-44BD-9569-163F45330D0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Console", "src\BlaisePascal.SmartHouse.Console\BlaisePascal.SmartHouse.Console.csproj", "{3343D069-711A-418D-9995-781DDB74981D}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{621FBCAB-A965-44BD-9569-163F45330D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{621FBCAB-A965-44BD-9569-163F45330D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{621FBCAB-A965-44BD-9569-163F45330D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{621FBCAB-A965-44BD-9569-163F45330D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3343D069-711A-418D-9995-781DDB74981D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3343D069-711A-418D-9995-781DDB74981D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3343D069-711A-418D-9995-781DDB74981D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3343D069-711A-418D-9995-781DDB74981D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{621FBCAB-A965-44BD-9569-163F45330D0E} = {15CE8A58-859C-4555-8CFD-C0188E57F148}
+		{3343D069-711A-418D-9995-781DDB74981D} = {15CE8A58-859C-4555-8CFD-C0188E57F148}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {056AEBB7-9E70-41DD-9062-057099D95E3D}
