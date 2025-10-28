@@ -5,5 +5,6 @@
         int a = 0;
         string b = "test";
         int prova;
+        int kahba;
     }
 }
