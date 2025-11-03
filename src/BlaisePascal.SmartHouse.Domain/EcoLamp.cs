@@ -1,9 +1,15 @@
-﻿namespace BlaisePascal.SmartHouse.Domain
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BlaisePascal.SmartHouse.Domain
 {
-    public class Lamp
+    public class EcoLamp
     {
         // Attributes
-        // Type of lamp (LED, Incandescent, Flourescent)
+        // Type of lamp = LED
         string brand { get; set; }
         string type_of_lamp { get; set; }
 
@@ -18,7 +24,7 @@
 
         // State of lamp (on/off)
         bool is_on { get; set; }
-
+        // Current color of the lamp
 
         public void TurnOnOrOff()
         {
@@ -29,6 +35,7 @@
             else
             {
                 is_on = true; // turn it on
+                DateTime turnedOnTime = DateTime.Now;
             }
 
         }
@@ -48,16 +55,18 @@
 
         public enum colors_of_lamp { red, green, blue, purple, yellow, white }
         colors_of_lamp currentColorLamp { get; set; }
+
         public void ChangeColor(colors_of_lamp newColor)
         {
-            if (type_of_lamp == "LED")
-            {
-                currentColorLamp = newColor;
-            }
-            else
-            {
-                Console.WriteLine("Error - The selected lamp type is not led RGB");
-            }
+            currentColorLamp = newColor;
         }
+
+
+        public void TimePassedSinceLampOn()
+        {
+            DateTime currentTime = DateTime.Now;
+        }
+
+
     }
 }
