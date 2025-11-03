@@ -27,6 +27,7 @@ namespace BlaisePascal.SmartHouse.Domain
         bool is_on { get; set; }
         // Current color of the lamp
         DateTime turnedOnTime;
+        double new_brightness = 70;
         public void TurnOnOrOff()
         {
             if (is_on == true) // if the lamp is on

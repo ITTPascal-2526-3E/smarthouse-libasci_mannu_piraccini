@@ -18,6 +18,7 @@
 
         // State of lamp (on/off)
         bool is_on { get; set; }
+        double new_brightness = 100;
 
 
         public void TurnOnOrOff()
