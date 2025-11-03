@@ -11,7 +11,8 @@ namespace BlaisePascal.SmartHouse.Domain
         // Attributes
         // Type of lamp = LED
         string brand { get; set; }
-        string type_of_lamp { get; set; }
+
+        private string typeOfLamp = "LED";
 
         // Technical characteristics
         double power { get; set; } // in Watt
@@ -25,7 +26,7 @@ namespace BlaisePascal.SmartHouse.Domain
         // State of lamp (on/off)
         bool is_on { get; set; }
         // Current color of the lamp
-
+        DateTime turnedOnTime;
         public void TurnOnOrOff()
         {
             if (is_on == true) // if the lamp is on
@@ -35,7 +36,7 @@ namespace BlaisePascal.SmartHouse.Domain
             else
             {
                 is_on = true; // turn it on
-                DateTime turnedOnTime = DateTime.Now;
+                turnedOnTime = DateTime.Now;
             }
 
         }
@@ -43,7 +44,7 @@ namespace BlaisePascal.SmartHouse.Domain
         public void DimmableControl(double brightness_level)
         {
             double new_brightness;
-            if (is_dimmable == true)
+            if (is_dimmable == true && brightness_level >=1 && brightness_level <= 70)
             {
                 new_brightness = max_brightness * brightness_level / 100; // adjust brightness level
             }
@@ -61,12 +62,28 @@ namespace BlaisePascal.SmartHouse.Domain
             currentColorLamp = newColor;
         }
 
-
-        public void TimePassedSinceLampOn()
+        public DateTime AllTimeLampOn;
+        public void LimitTimeLampOn()
         {
             DateTime currentTime = DateTime.Now;
+            TimeSpan TimePassed = currentTime - turnedOnTime;
+
+            AllTimeLampOn = AllTimeLampOn.Add(TimePassed);
+
+            if (TimePassed > TimeSpan.FromHours(2))
+            {
+                is_on = false;
+            }
         }
 
+        public double ConsumedEnergyInWH()
+        {
+            double consumedEnergy = 0;
+            consumedEnergy = power * AllTimeLampOn.Hour;
+            return consumedEnergy;
+        }
 
     }
+
 }
+

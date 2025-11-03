@@ -36,7 +36,7 @@
         public void DimmableControl(double brightness_level)
         {
             double new_brightness;
-            if (is_dimmable == true)
+            if (is_dimmable == true && brightness_level >= 1 && brightness_level <= 100)
             {
                 new_brightness = max_brightness * brightness_level / 100; // adjust brightness level
             }
