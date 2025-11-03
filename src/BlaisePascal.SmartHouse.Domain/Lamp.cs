@@ -10,26 +10,38 @@
         // Technical characteristics
         double power { get; set; } // in Watt
         double max_brightness { get; set; } // in Lumen
-        double color_temperature { get; set; } // in Kelvin
 
         // Other characteristics
         bool is_dimmable { get; set; } // true if the lamp is dimmable
         string type_of_socket { get; set; } // E27, E14, GU10
 
-        // State of lamp (on/off)
-        bool is_on { get; set; }
+        // State of lamp
+        bool is_on = false;
         double new_brightness = 100;
 
+        public Lamp(string brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v) 
+        {
+            brand= brand_v;
+            type_of_lamp= type_of_lamp_v;
+            power= power_v;
+            max_brightness= max_brightness_v;
+            is_dimmable= is_dimmable_v;
+            type_of_socket= type_of_socket_v;
+            
+        }
 
-        public void TurnOnOrOff()
+
+        public bool TurnOnOrOff()
         {
             if (is_on == true) // if the lamp is on
             {
                 is_on = false; // turn it off
+                return is_on;
             }
             else
             {
                 is_on = true; // turn it on
+                return is_on;
             }
 
         }
@@ -48,12 +60,13 @@
         }
 
         public enum colors_of_lamp { red, green, blue, purple, yellow, white }
-        colors_of_lamp currentColorLamp { get; set; }
+       
         public void ChangeColor(colors_of_lamp newColor)
         {
+            colors_of_lamp actualColor;
             if (type_of_lamp == "LED")
             {
-                currentColorLamp = newColor;
+                actualColor = newColor;
             }
             else
             {

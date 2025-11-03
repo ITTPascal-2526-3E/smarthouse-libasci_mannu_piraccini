@@ -17,7 +17,6 @@ namespace BlaisePascal.SmartHouse.Domain
         // Technical characteristics
         double power { get; set; } // in Watt
         double max_brightness { get; set; } // in Lumen
-        double color_temperature { get; set; } // in Kelvin
 
         // Other characteristics
         bool is_dimmable { get; set; } // true if the lamp is dimmable
@@ -28,16 +27,27 @@ namespace BlaisePascal.SmartHouse.Domain
         // Current color of the lamp
         DateTime turnedOnTime;
         double new_brightness = 70;
-        public void TurnOnOrOff()
+        public EcoLamp(string brand_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
+        {
+            brand = brand_v;
+            power = power_v;
+            max_brightness = max_brightness_v;
+            is_dimmable = is_dimmable_v;
+            type_of_socket = type_of_socket_v;
+
+        }
+        public bool TurnOnOrOff()
         {
             if (is_on == true) // if the lamp is on
             {
                 is_on = false; // turn it off
+                return is_on;
             }
             else
             {
                 is_on = true; // turn it on
                 turnedOnTime = DateTime.Now;
+                return is_on;
             }
 
         }
