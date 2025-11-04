@@ -83,7 +83,8 @@ namespace BlaisePascal.SmartHouse.Domain
         public void LimitTimeLampOn()
         {
             DateTime currentTime = DateTime.Now;
-            TimeSpan TimePassed = currentTime - turnedOnTime;
+            TimeSpan TimePassed = new TimeSpan(3, 0, 0);
+            //currentTime - turnedOnTime;
 
             AllTimeLampOn = AllTimeLampOn.Add(TimePassed);
 
