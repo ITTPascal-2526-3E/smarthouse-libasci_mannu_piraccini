@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class EcoLamp
     {
-        // Attributes
+        // Properties
         // Type of lamp = LED
         string brand { get; set; }
 
@@ -72,7 +72,6 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
-        public enum colors_of_lamp { red, green, blue, purple, yellow, white }
         colors_of_lamp currentColorLamp { get; set; }
 
         public void ChangeColor(colors_of_lamp newColor)
@@ -96,8 +95,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public double ConsumedEnergyInWH()
         {
-            double consumedEnergy = 0;
-            consumedEnergy = power * AllTimeLampOn.Hour;
+            double consumedEnergy = power * AllTimeLampOn.Hour;
             return consumedEnergy;
         }
 

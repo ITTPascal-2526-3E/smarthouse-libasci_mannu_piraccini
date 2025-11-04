@@ -2,7 +2,7 @@
 {
     public class Lamp
     {
-        // Attributes
+        // Properties
         // Type of lamp (LED, Incandescent, Flourescent)
         string brand { get; set; }
         string type_of_lamp { get; set; }
@@ -19,6 +19,9 @@
         bool is_on = false;
         double new_brightness = 100;
 
+        private int id { get; set; }
+        
+        
         public Lamp(string brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v) 
         {
             brand= brand_v;
@@ -31,17 +34,15 @@
         }
 
 
-        public bool TurnOnOrOff()
+        public void TurnOnOrOff()
         {
             if (is_on == true) // if the lamp is on
             {
                 is_on = false; // turn it off
-                return is_on;
             }
             else
             {
                 is_on = true; // turn it on
-                return is_on;
             }
 
         }
@@ -59,7 +60,6 @@
             }
         }
 
-        public enum colors_of_lamp { red, green, blue, purple, yellow, white }
        
         public void ChangeColor(colors_of_lamp newColor)
         {
