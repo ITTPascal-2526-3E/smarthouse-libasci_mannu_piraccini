@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BlaisePascal.SmartHouse.Domain
 {
     public class EcoLamp
@@ -23,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Domain
         string type_of_socket { get; set; } // E27, E14, GU10
 
         // State of lamp (on/off)
-        bool is_on { get; set; }
+        bool is_on = false;
         // Current color of the lamp
         DateTime turnedOnTime;
         double new_brightness = 70;
@@ -41,7 +42,13 @@ namespace BlaisePascal.SmartHouse.Domain
             if (is_on == true) // if the lamp is on
             {
                 is_on = false; // turn it off
+                DateTime currentTime = DateTime.Now;
+                TimeSpan TimePassed = currentTime - turnedOnTime;
+
+                AllTimeLampOn = AllTimeLampOn.Add(TimePassed);
+
                 return is_on;
+
             }
             else
             {
