@@ -37,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain
             type_of_socket = type_of_socket_v;
 
         }
-        public bool TurnOnOrOff()
+        public void TurnOnOrOff()
         {
             if (is_on == true) // if the lamp is on
             {
@@ -46,18 +46,21 @@ namespace BlaisePascal.SmartHouse.Domain
                 TimeSpan TimePassed = currentTime - turnedOnTime;
 
                 AllTimeLampOn = AllTimeLampOn.Add(TimePassed);
-
-                return is_on;
-
             }
             else
             {
                 is_on = true; // turn it on
                 turnedOnTime = DateTime.Now;
+
+            }
+        }
+
+            public bool IsOn()
+            {
                 return is_on;
             }
 
-        }
+        
 
         public void DimmableControl(double brightness_level)
         {

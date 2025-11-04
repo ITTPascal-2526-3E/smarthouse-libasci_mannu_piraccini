@@ -1,4 +1,6 @@
-﻿namespace BlaisePascal.SmartHouse.Domain
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace BlaisePascal.SmartHouse.Domain
 {
     public class Lamp
     {
@@ -18,6 +20,7 @@
         // State of lamp
         bool is_on = false;
         double new_brightness = 100;
+        private readonly object get;
 
         private int id { get; set; }
         
@@ -44,8 +47,13 @@
             {
                 is_on = true; // turn it on
             }
-
         }
+            
+            public bool IsOn()
+            {
+                return is_on;  
+            }
+
 
         public void DimmableControl(double brightness_level)
         {
