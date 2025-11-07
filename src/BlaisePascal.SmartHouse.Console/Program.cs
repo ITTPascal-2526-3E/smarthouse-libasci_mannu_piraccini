@@ -37,15 +37,17 @@ namespace BlaisePascal.SmartHouse.Domain
 
                 } while (lampSwich != "A");
 
+                Console.WriteLine("");
+
                 if (classicLamp.IsOn() == true)
                 {
                     classicLamp.TurnOnOrOff();
-                    Console.WriteLine("The classic lamp is off.");
+                    Console.WriteLine("- The classic lamp is off.");
                 }
                 else
                 {
                     classicLamp.TurnOnOrOff();
-                    Console.WriteLine("The classic lamp is on.");
+                    Console.WriteLine("- The classic lamp is on.");
                 }
 
                 classicLamp.DimmableControl(36.0);
@@ -55,20 +57,20 @@ namespace BlaisePascal.SmartHouse.Domain
                 ecoLamp.TurnOnOrOff();
                 if (ecoLamp.IsOn() == true)
                 {
-                    Console.WriteLine("The eco lamp is on.");
+                    Console.WriteLine("- The eco lamp is on.");
                 }
                 else
                 {
-                    Console.WriteLine("The eco lamp is off.");
+                    Console.WriteLine("- The eco lamp is off.");
                 }
                 ecoLamp.DimmableControl(36.0);
                 //ecoLamp.ChangeColor();
                 ecoLamp.LimitTimeLampOn();
-                Console.WriteLine("The energy consumed in watts is: " + ecoLamp.ConsumedEnergyInWH());
+                Console.WriteLine("- The energy consumed in watts is: " + ecoLamp.ConsumedEnergyInWH());
 
                 Console.WriteLine("");
                 string exit;
-                Console.WriteLine("If you wish to exit, press 'X'");
+                Console.WriteLine("If you wish to exit, press 'X', otherwise press any other key");
                 exit = Console.ReadLine();
                 if (exit == "X")
                 {
