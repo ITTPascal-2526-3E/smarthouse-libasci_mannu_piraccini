@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,52 +10,76 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     internal class Program
     {
-
         static void Main(string[] args)
         {
+            int y = 0;
+
             Lamp classicLamp = new Lamp("Tapo", "LED", 60.0, 806.0, true, "E27");
-            if (classicLamp.IsOn() == false) 
-            {
-                Console.WriteLine("Classic Lamp is off");
-            
-            }
-
-            string lampSwich;
-            do
-            {
-                Console.WriteLine("Per accendere la lampadina premere 'A'");
-                lampSwich = (Console.ReadLine());
-
-            } while (lampSwich != "A");
-
-            if (classicLamp.IsOn() == true)
-            {
-                classicLamp.TurnOnOrOff();
-                Console.WriteLine("The classic lamp is off.");
-            }
-            else
-            {
-                classicLamp.TurnOnOrOff();
-                Console.WriteLine("The classic lamp is on.");
-            }
-                
-             classicLamp.DimmableControl(36.0);
-            //classicLamp.ChangeColor(red);
-
             EcoLamp ecoLamp = new EcoLamp("Tapo", 60.0, 806.0, true, "E27");
-            ecoLamp.TurnOnOrOff();
-            if(ecoLamp.IsOn() == true)
-            {
-                Console.WriteLine("The eco lamp is on.");
-            }
-            else
-            {
-                Console.WriteLine("The eco lamp is off.");
-            }
+
+            do
+            {              
+                if (classicLamp.IsOn() == false)
+                {
+                    Console.WriteLine("Classic Lamp is off");
+
+                }
+
+                string lampSwich;
+                do
+                {
+                    Console.WriteLine("To turn on or off the light, press 'A'");
+                    lampSwich = (Console.ReadLine());
+                    if (lampSwich != "A")
+                    {
+                        Console.WriteLine("'A' was not typed");
+                    }
+
+                } while (lampSwich != "A");
+
+                if (classicLamp.IsOn() == true)
+                {
+                    classicLamp.TurnOnOrOff();
+                    Console.WriteLine("The classic lamp is off.");
+                }
+                else
+                {
+                    classicLamp.TurnOnOrOff();
+                    Console.WriteLine("The classic lamp is on.");
+                }
+
+                classicLamp.DimmableControl(36.0);
+                //classicLamp.ChangeColor(red);
+
+                
+                ecoLamp.TurnOnOrOff();
+                if (ecoLamp.IsOn() == true)
+                {
+                    Console.WriteLine("The eco lamp is on.");
+                }
+                else
+                {
+                    Console.WriteLine("The eco lamp is off.");
+                }
                 ecoLamp.DimmableControl(36.0);
-            //ecoLamp.ChangeColor();
-            ecoLamp.LimitTimeLampOn();
-            Console.WriteLine("The energy consumed in watts is: " + ecoLamp.ConsumedEnergyInWH());
+                //ecoLamp.ChangeColor();
+                ecoLamp.LimitTimeLampOn();
+                Console.WriteLine("The energy consumed in watts is: " + ecoLamp.ConsumedEnergyInWH());
+
+                Console.WriteLine("");
+                string exit;
+                Console.WriteLine("If you wish to exit, press 'X'");
+                exit = Console.ReadLine();
+                if (exit == "X")
+                {
+                    y = 1;
+                }
+                else
+                {
+                    y = 0;
+                }
+
+            } while (y == 0);
         }
     }
 }
