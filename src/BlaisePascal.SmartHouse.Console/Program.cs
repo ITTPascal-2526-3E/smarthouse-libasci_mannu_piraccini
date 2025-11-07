@@ -25,21 +25,17 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine("Per accendere o spegnere la lampadina premere 'A'");
             string cici = (Console.ReadLine());
             if (cici== "A") {
-                if(classicLamp.IsOn() == true)
+                if (classicLamp.IsOn() == true)
                 {
-                    Console.WriteLine("The classic lamp is on.");
+
+                    Console.WriteLine("The classic lamp is off.");
                 }
-               
-            }
-            classicLamp.TurnOnOrOff();
-            if (classicLamp.IsOn() == true)
-            {
-                Console.WriteLine("The classic lamp is on.");
             }
             else
             {
-                Console.WriteLine("The classic lamp is off.");
+                Console.WriteLine("Non è stato premuto 'A'.");
             }
+
             classicLamp.DimmableControl(36.0);
             //classicLamp.ChangeColor(red);
 
