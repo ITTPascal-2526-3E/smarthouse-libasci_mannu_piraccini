@@ -24,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Domain
                     Console.WriteLine("The Classic Lamp is off");
 
                 }
-
+                
                 string lampSwich;
                 do
                 {
