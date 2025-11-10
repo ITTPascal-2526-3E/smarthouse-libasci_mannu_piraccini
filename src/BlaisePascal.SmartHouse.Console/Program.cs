@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain
             {              
                 if (classicLamp.IsOn() == false)
                 {
-                    Console.WriteLine("Classic Lamp is off");
+                    Console.WriteLine("The Classic Lamp is off");
 
                 }
 
@@ -53,16 +53,39 @@ namespace BlaisePascal.SmartHouse.Domain
                 classicLamp.DimmableControl(36.0);
                 //classicLamp.ChangeColor(red);
 
-                
-                ecoLamp.TurnOnOrOff();
+                if (ecoLamp.IsOn() == false)
+                {
+                    Console.WriteLine("The ecoLamp is off");
+
+                }
+                Console.WriteLine("");
+
+                string lampSwich2;
+                do
+                {
+                    Console.WriteLine("To turn on or off the light, press 'B'");
+                    lampSwich2 = (Console.ReadLine());
+                    if (lampSwich2 != "B")
+                    {
+                        Console.WriteLine("'B' was not typed");
+                    }
+
+                } while (lampSwich2 != "B");
+
+                Console.WriteLine("");
+
                 if (ecoLamp.IsOn() == true)
                 {
-                    Console.WriteLine("- The eco lamp is on.");
+                    ecoLamp.TurnOnOrOff();
+                    Console.WriteLine("- The ecolamp is off.");
                 }
                 else
                 {
-                    Console.WriteLine("- The eco lamp is off.");
+                    classicLamp.TurnOnOrOff();
+                    Console.WriteLine("- The ecolamp is on.");
                 }
+
+              
                 ecoLamp.DimmableControl(36.0);
                 //ecoLamp.ChangeColor();
                 ecoLamp.LimitTimeLampOn();
