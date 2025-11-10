@@ -52,10 +52,11 @@ namespace BlaisePascal.SmartHouse.Domain
 
                 classicLamp.DimmableControl(36.0);
                 //classicLamp.ChangeColor(red);
+                Console.WriteLine("");
 
                 if (ecoLamp.IsOn() == false)
                 {
-                    Console.WriteLine("The ecoLamp is off");
+                    Console.WriteLine("- The ecoLamp is off");
 
                 }
                 Console.WriteLine("");
