@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Domain", "src\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj", "{621FBCAB-A965-44BD-9569-163F45330D0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Console", "src\BlaisePascal.SmartHouse.Console\BlaisePascal.SmartHouse.Console.csproj", "{3343D069-711A-418D-9995-781DDB74981D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6B30688D-B70F-4BC7-8209-6C7E10DC7D13} = {6B30688D-B70F-4BC7-8209-6C7E10DC7D13}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Domain.UnitTest", "Test\BlaisePascal.SmartHouse.Domain.UnitTest\BlaisePascal.SmartHouse.Domain.UnitTest.csproj", "{6B30688D-B70F-4BC7-8209-6C7E10DC7D13}"
 EndProject
