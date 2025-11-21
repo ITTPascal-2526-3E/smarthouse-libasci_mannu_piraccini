@@ -5,7 +5,7 @@
         [Fact]
         public void Lamp_TurnOnWhenLampIsOff_LampIsTurnedOn()
         {
-            var lampTest = new Lamp();
+            var lampTest = new Lamp(aaa);
         }
     }
 }
