@@ -6,7 +6,23 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
-    internal class EcoLampTest
+    public class EcoLampTest
     {
+        [Fact]
+        public void TurnOnOrOff_ShouldToggleIsOnState()
+        {
+            // Arrange
+            var ecoLamp = new EcoLamp("Tapo", 60.0, 806.0, true, "E27");
+            // Act & Assert
+            Assert.False(ecoLamp.IsOn()); // Initially off
+            ecoLamp.TurnOnOrOff();
+            Assert.True(ecoLamp.IsOn()); // Should be on after first toggle
+            ecoLamp.TurnOnOrOff();
+            Assert.False(ecoLamp.IsOn()); // Should be off after second toggle
+        }
+
+
+
+
     }
 }

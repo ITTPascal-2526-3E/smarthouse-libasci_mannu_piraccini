@@ -41,6 +41,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         }
         public void TurnOnOrOff()
+        
         {
             if (is_on == false) // if the lamp is off
             {
