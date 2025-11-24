@@ -74,6 +74,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 Console.WriteLine("This lamp is not dimmable.");
             }
         }
+        
 
        
         public void ChangeColor(colors_of_lamp newColor)
