@@ -28,20 +28,20 @@ namespace BlaisePascal.SmartHouse.Domain
         bool is_on = false;
         private double current_brightness_percentage = 100;
         private colors_of_lamp actualColor;
-        
+
 
         private int id { get; set; }
-        
-        
-        public Lamp(string brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v) 
+
+
+        public Lamp(string brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
         {
-            brand= brand_v;
-            type_of_lamp= type_of_lamp_v;
-            power= power_v;
-            max_brightness= max_brightness_v;
-            is_dimmable= is_dimmable_v;
-            type_of_socket= type_of_socket_v;
-            
+            brand = brand_v;
+            type_of_lamp = type_of_lamp_v;
+            power = power_v;
+            max_brightness = max_brightness_v;
+            is_dimmable = is_dimmable_v;
+            type_of_socket = type_of_socket_v;
+
         }
 
         /*
@@ -62,10 +62,10 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             is_on = !is_on;
         }
-            
+
         public bool IsOn()
         {
-            return is_on;  
+            return is_on;
         }
 
         /*
@@ -124,5 +124,6 @@ namespace BlaisePascal.SmartHouse.Domain
             {
                 actualColor = newColor;
             }
+        }
     }
 }

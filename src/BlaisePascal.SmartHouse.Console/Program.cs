@@ -26,7 +26,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 Console.WriteLine("\n--- Menu ---");
                 Console.WriteLine("[A] Accendi / Spegni la lampada");
                 Console.WriteLine("[D] Imposta luminosità al 75%");
-                Console.WriteLine("[C] Cambia colore in Verde");
+                Console.WriteLine("[C] Cambia colore");
                 Console.WriteLine("[X] Esci dal programma");
                 Console.Write("La tua scelta: ");
 
@@ -42,14 +42,18 @@ namespace BlaisePascal.SmartHouse.Domain
                         if (inputUtente == "A")
                         {
                             classicLamp.TurnOnOrOff();
+                            Console.WriteLine($"The Classic Lamp is now {(classicLamp.IsOn() ? "On" : "Off")}.");
                         }
                         else if (inputUtente == "D")
                         {
                             classicLamp.DimmableControl(75.0);
+                            Console.WriteLine("The brightness of the Classic Lamp has been set to 75%.");
                         }
                         else if (inputUtente == "C")
                         {
+                            
                             classicLamp.ChangeColor(colors_of_lamp.green);
+                            Console.WriteLine("The color of the Classic Lamp has been changed to Green.");
                         }
                     }
                 }
