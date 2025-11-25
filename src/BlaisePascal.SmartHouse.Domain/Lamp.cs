@@ -13,12 +13,12 @@ namespace BlaisePascal.SmartHouse.Domain
     {
         // Properties
         // Type of lamp (LED, Incandescent, Flourescent)
-        string brand { get; set; }
+        public string brand { get; set; }
         string type_of_lamp { get; set; }
 
         // Technical characteristics
         double power { get; set; } // in Watt
-        double max_brightness { get; set; } // in Lumen
+        public double max_brightness { get; set; } // in Lumen
 
         // Other characteristics
         bool is_dimmable { get; set; } // true if the lamp is dimmable
@@ -26,8 +26,9 @@ namespace BlaisePascal.SmartHouse.Domain
 
         // State of lamp
         bool is_on = false;
-        double new_brightness = 100;
-        private readonly object get;
+        private double current_brightness_percentage = 100;
+        private colors_of_lamp actualColor;
+        
 
         private int id { get; set; }
         
@@ -43,41 +44,63 @@ namespace BlaisePascal.SmartHouse.Domain
             
         }
 
-
-        public void TurnOnOrOff()
+        /*
+         public void TurnOnOrOff()
         {
-            if (is_on == false) // if the lamp is off
+         if (is_on == false) // if the lamp is off
             {
                 is_on = true; // turn it on
             }
             else
             {
                 is_on = false; // turn it off
-            }
+            } 
+        }
+        */
+
+        public void TurnOnOrOff()
+        {
+            is_on = !is_on;
         }
             
-            public bool IsOn()
+        public bool IsOn()
+        {
+            return is_on;  
+        }
+
+        /*
+         public void DimmableControl(double brightness_level)
+        {
+            if (!is_dimmable)
             {
-                return is_on;  
+                Console.WriteLine($"Errore - This lamp is not dimmable.");
+                return;
+            }
+            if (brightness_level < 1.0 || brightness_level > 100.0)
+            {
+                Console.WriteLine($"Error - The brightness level must be between 1 and 100.");
+                return;
             }
 
-
+            current_brightness_percentage = brightness_level;
+            Console.WriteLine($"The brightness level has been set to {current_brightness_percentage}%.");
+        }
+         */
         public void DimmableControl(double brightness_level)
         {
-            double new_brightness;
-            if (is_dimmable == true && brightness_level >= 1 && brightness_level <= 100)
+            if (!is_dimmable)
             {
-                new_brightness = max_brightness * brightness_level / 100; // adjust brightness level
+                throw new InvalidOperationException($"Error - This lamp '{brand}' is not dimmable.");
             }
-            else
+            if (brightness_level < 1.0 || brightness_level > 100.0)
             {
-                Console.WriteLine("This lamp is not dimmable.");
+                throw new ArgumentOutOfRangeException(nameof(brightness_level), $"Error - The brightness level must be between 1 and 100.");
             }
+            current_brightness_percentage = brightness_level;
         }
-        
 
-       
-        public void ChangeColor(colors_of_lamp newColor)
+        /*
+         public void ChangeColor(colors_of_lamp newColor)
         {
             colors_of_lamp actualColor;
             if (type_of_lamp == "LED")
@@ -89,5 +112,17 @@ namespace BlaisePascal.SmartHouse.Domain
                 Console.WriteLine("Error - The selected lamp type is not led RGB");
             }
         }
+        */
+
+        public void ChangeColor(colors_of_lamp newColor)
+        {
+            if (type_of_lamp != "LED")
+            {
+                throw new InvalidOperationException("Error - The selected lamp type is not led RGB");
+            }
+            else
+            {
+                actualColor = newColor;
+            }
     }
 }

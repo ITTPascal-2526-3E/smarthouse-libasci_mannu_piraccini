@@ -13,86 +13,51 @@ namespace BlaisePascal.SmartHouse.Domain
         static void Main(string[] args)
         {
             int y = 0;
-
             Lamp classicLamp = new Lamp("Tapo", "LED", 60.0, 806.0, true, "E27");
-            EcoLamp ecoLamp = new EcoLamp("Tapo", 60.0, 806.0, true, "E27");
+            EcoLamp ecoLamp = new EcoLamp("Philips", 10.0, 800.0, true, "E27");
+
+            string inputUtente = " ";
+
+            Console.WriteLine("\n--- Actual Status ---");
+            Console.WriteLine($"The Classic Lamp ({classicLamp.brand}) is off.");
 
             do
-            {              
-                if (classicLamp.IsOn() == false)
-                {
-                    Console.WriteLine("The Classic Lamp is off");
+            {
+                Console.WriteLine("\n--- Menu ---");
+                Console.WriteLine("[A] Accendi / Spegni la lampada");
+                Console.WriteLine("[D] Imposta luminosità al 75%");
+                Console.WriteLine("[C] Cambia colore in Verde");
+                Console.WriteLine("[X] Esci dal programma");
+                Console.Write("La tua scelta: ");
 
-                }
-                
-                string lampSwich;
-                do
+                inputUtente = Console.ReadLine();
+                try
                 {
-                    Console.WriteLine("To turn on or off the light, press 'A'");
-                    lampSwich = (Console.ReadLine());
-                    if (lampSwich != "A")
+                    if (inputUtente == null)
                     {
-                        Console.WriteLine("'A' was not typed");
+                        throw new ArgumentNullException("Input cannot be null.");
                     }
-
-                } while (lampSwich != "A");
-
-                Console.WriteLine("");
-
-                if (classicLamp.IsOn() == true)
-                {
-                    classicLamp.TurnOnOrOff();
-                    Console.WriteLine("- The classic lamp is off.");
-                }
-                else
-                {
-                    classicLamp.TurnOnOrOff();
-                    Console.WriteLine("- The classic lamp is on.");
-                }
-
-                classicLamp.DimmableControl(36.0);
-                //classicLamp.ChangeColor(red);
-                Console.WriteLine("");
-
-                if (ecoLamp.IsOn() == false)
-                {
-                    Console.WriteLine("- The ecoLamp is off");
-
-                }
-                Console.WriteLine("");
-
-                string lampSwich2;
-                do
-                {
-                    Console.WriteLine("To turn on or off the light, press 'B'");
-                    lampSwich2 = (Console.ReadLine());
-                    if (lampSwich2 != "B")
+                    else
                     {
-                        Console.WriteLine("'B' was not typed");
+                        if (inputUtente == "A")
+                        {
+                            classicLamp.TurnOnOrOff();
+                        }
+                        else if (inputUtente == "D")
+                        {
+                            classicLamp.DimmableControl(75.0);
+                        }
+                        else if (inputUtente == "C")
+                        {
+                            classicLamp.ChangeColor(colors_of_lamp.green);
+                        }
                     }
-
-                } while (lampSwich2 != "B");
-
-                Console.WriteLine("");
-
-                if (ecoLamp.IsOn() == true)
-                {
-                    ecoLamp.TurnOnOrOff();
-                    Console.WriteLine("- The ecolamp is off.");
                 }
-                else
+                catch (Exception ex)
                 {
-                    classicLamp.TurnOnOrOff();
-                    Console.WriteLine("- The ecolamp is on.");
+                    Console.WriteLine($"Errore: {ex.Message}");
                 }
 
-              
-                ecoLamp.DimmableControl(36.0);
-                //ecoLamp.ChangeColor();
-                ecoLamp.LimitTimeLampOn();
-                Console.WriteLine("- The energy consumed in watts is: " + ecoLamp.ConsumedEnergyInWH());
-
-                Console.WriteLine("");
                 string exit;
                 Console.WriteLine("If you wish to exit, press 'X', otherwise press any other key");
                 exit = Console.ReadLine();

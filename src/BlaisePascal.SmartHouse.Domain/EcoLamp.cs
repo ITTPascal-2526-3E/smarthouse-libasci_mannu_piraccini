@@ -20,7 +20,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         // Technical characteristics
         double power { get; set; } // in Watt
-        double max_brightness { get; set; } // in Lumen
+        public double max_brightness { get; set; } // in Lumen
 
         // Other characteristics
         bool is_dimmable { get; set; } // true if the lamp is dimmable
