@@ -1,4 +1,6 @@
-﻿namespace BlaisePascal.SmartHouse.Domain.UnitTest
+﻿using BlaisePascal.SmartHouse.Domain.Lighting;
+
+namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
     public class UnitTest1
     {

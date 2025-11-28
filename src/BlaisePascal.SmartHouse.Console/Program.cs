@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Lighting;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

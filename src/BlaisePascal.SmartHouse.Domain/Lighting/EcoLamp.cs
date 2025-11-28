@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.Lighting
 {
     public class EcoLamp
     {

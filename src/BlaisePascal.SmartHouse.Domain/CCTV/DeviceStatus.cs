@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
-    public enum CCTVStatus
+    public enum DeviceStatus
     {
-        Idle,
-        Recording
+        Offline,
+        Online,
+        Error
     }
 }
