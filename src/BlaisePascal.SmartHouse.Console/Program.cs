@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain
     {
         static void Main(string[] args)
         {
-            int y = 0;
+            int exitFlag = 0;
             Lamp classicLamp = new Lamp("Tapo", "LED", 60.0, 806.0, true, "E27");
             EcoLamp ecoLamp = new EcoLamp("Philips", 10.0, 800.0, true, "E27");
 
@@ -25,9 +25,12 @@ namespace BlaisePascal.SmartHouse.Domain
             do
             {
                 Console.WriteLine("\n--- Menu ---");
-                Console.WriteLine("[A] Accendi / Spegni la lampada");
-                Console.WriteLine("[D] Imposta luminosità al 75%");
-                Console.WriteLine("[C] Cambia colore");
+                Console.WriteLine("[A] Accendi / Spegni la Classic Lamp");
+                Console.WriteLine("[D] Imposta luminosità al 75% Classic Lamp");
+                Console.WriteLine("[C] Cambia colore Classic Lamp");
+                Console.WriteLine("[E] Accendi / Spegni la EcoLamp");
+                Console.WriteLine("[F] Limite ore accensione EcoLamp");
+                Console.WriteLine("[H] Cambia colore EcoLamp");
                 Console.WriteLine("[X] Esci dal programma");
                 Console.Write("La tua scelta: ");
 
@@ -40,6 +43,7 @@ namespace BlaisePascal.SmartHouse.Domain
                     }
                     else
                     {
+                        // Classic Lamp
                         if (inputUtente == "A")
                         {
                             classicLamp.TurnOnOrOff();
@@ -52,9 +56,31 @@ namespace BlaisePascal.SmartHouse.Domain
                         }
                         else if (inputUtente == "C")
                         {
-                            
+
                             classicLamp.ChangeColor(colors_of_lamp.green);
                             Console.WriteLine("The color of the Classic Lamp has been changed to Green.");
+                        }
+
+                        // EcoLamp
+                        else if (inputUtente == "E")
+                        {
+                            ecoLamp.TurnOnOrOff();
+                            Console.WriteLine($"The EcoLamp is now {(ecoLamp.IsOn() ? "On" : "Off")}.");
+                        }
+                        else if (inputUtente == "F")
+                        {
+                            ecoLamp.LimitTimeLampOn();
+                            Console.WriteLine("Limit time control executed for EcoLamp.");
+                        }
+                        else if (inputUtente == "G")
+                        {
+                            double consumo = ecoLamp.ConsumedEnergyInWH();
+                            Console.WriteLine($"The EcoLamp consumed energy: {consumo} Wh");
+                        }
+                        else if (inputUtente == "H")
+                        {
+                            ecoLamp.ChangeColor(colors_of_lamp.blue);
+                            Console.WriteLine("The color of the EcoLamp has been changed to Blue.");
                         }
                     }
                 }
@@ -63,19 +89,18 @@ namespace BlaisePascal.SmartHouse.Domain
                     Console.WriteLine($"Errore: {ex.Message}");
                 }
 
-                string exit;
                 Console.WriteLine("If you wish to exit, press 'X', otherwise press any other key");
-                exit = Console.ReadLine();
+                string exit = Console.ReadLine();
                 if (exit == "X")
                 {
-                    y = 1;
+                    exitFlag = 1;
                 }
                 else
                 {
-                    y = 0;
+                    exitFlag = 0;
                 }
 
-            } while (y == 0);
+            } while (exitFlag == 0);
         }
     }
 }
