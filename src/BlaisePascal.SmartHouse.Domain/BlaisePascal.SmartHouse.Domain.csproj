@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="TemperatureRegolation\" />
+    <Compile Remove="TemperatureRegolation\**" />
+    <EmbeddedResource Remove="TemperatureRegolation\**" />
+    <None Remove="TemperatureRegolation\**" />
   </ItemGroup>
 
 </Project>

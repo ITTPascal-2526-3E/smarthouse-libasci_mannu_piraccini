@@ -96,7 +96,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
 
         public double ConsumedEnergyInWH()
         {
-            double consumedEnergy = power * AllTimeLampOn.Hour;
+            double consumedEnergy = power * AllTimeLampOn.hour;
             return consumedEnergy;
         }
 
