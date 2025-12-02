@@ -31,10 +31,11 @@ namespace BlaisePascal.SmartHouse.Domain
                 Console.WriteLine("[E] Turn On / Off the EcoLamp");
                 Console.WriteLine("[F] Limit EcoLamp operating hours");
                 Console.WriteLine("[H] Change EcoLamp color");
-                Console.WriteLine("[X] Exit the program");
                 Console.Write("Your choice: ");
-
+                
                 inputUtente = Console.ReadLine();
+                Console.WriteLine();
+
                 try
                 {
                     if (inputUtente == null)
@@ -108,7 +109,7 @@ namespace BlaisePascal.SmartHouse.Domain
                     Console.WriteLine($"Errore: {ex.Message}");
                 }
 
-                Console.WriteLine("If you wish to exit, press 'X', otherwise press any other key");
+                Console.WriteLine("If you wish to exit, press [X], otherwise press any other key");
                 string exit = Console.ReadLine();
                 if (exit == "X")
                 {
