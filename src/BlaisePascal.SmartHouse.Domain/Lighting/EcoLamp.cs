@@ -33,7 +33,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         public TimeSpan AllTimeLampOn { get; set; } = TimeSpan.Zero;
 
         private double currentBrightnessPercentage = 70;
-        private colors_of_lamp currentColorLamp;
+        private colors_of_lamp actualColor;
         public EcoLamp(string brand_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
         {
             brand = brand_v;
@@ -71,7 +71,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
             if (!is_dimmable)
                 throw new InvalidOperationException("This lamp is not dimmable.");
 
-            if (brightness_level < 1 || brightness_level > 70) ;
+            if (brightness_level < 1 || brightness_level > 70)
             throw new ArgumentOutOfRangeException("brightness_level", "The brightness level must be between 1 and 70.");
 
             currentBrightnessPercentage = brightness_level;
@@ -80,7 +80,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
 
         public void ChangeColor(colors_of_lamp newColor)
         {
-            currentColorLamp = newColor;
+            actualColor = newColor;
         }
 
         public void LimitTimeLampOn()
@@ -96,11 +96,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
 
         public double ConsumedEnergyInWH()
         {
-            double consumedEnergy = power * AllTimeLampOn.hour;
+            double consumedEnergy = power * AllTimeLampOn.TotalHours;
             return consumedEnergy;
         }
 
     }
 
 }
-

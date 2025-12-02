@@ -27,7 +27,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         // State of lamp
         bool is_on = false;
         private double current_brightness_percentage = 100;
-        private colors_of_lamp actualColor;
+        public colors_of_lamp actualColor { get; set; }
 
 
         private int id { get; set; }

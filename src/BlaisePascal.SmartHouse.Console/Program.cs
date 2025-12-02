@@ -25,14 +25,14 @@ namespace BlaisePascal.SmartHouse.Domain
             do
             {
                 Console.WriteLine("\n--- Menu ---");
-                Console.WriteLine("[A] Accendi / Spegni la Classic Lamp");
-                Console.WriteLine("[D] Imposta luminosità al 75% Classic Lamp");
-                Console.WriteLine("[C] Cambia colore Classic Lamp");
-                Console.WriteLine("[E] Accendi / Spegni la EcoLamp");
-                Console.WriteLine("[F] Limite ore accensione EcoLamp");
-                Console.WriteLine("[H] Cambia colore EcoLamp");
-                Console.WriteLine("[X] Esci dal programma");
-                Console.Write("La tua scelta: ");
+                Console.WriteLine("[A] Turn On / Off the Classic Lamp");
+                Console.WriteLine("[D] Set Classic Lamp brightness to 75%");               
+                Console.WriteLine("[C] Change Classic Lamp color");             
+                Console.WriteLine("[E] Turn On / Off the EcoLamp");
+                Console.WriteLine("[F] Limit EcoLamp operating hours");
+                Console.WriteLine("[H] Change EcoLamp color");
+                Console.WriteLine("[X] Exit the program");
+                Console.Write("Your choice: ");
 
                 inputUtente = Console.ReadLine();
                 try
@@ -56,9 +56,18 @@ namespace BlaisePascal.SmartHouse.Domain
                         }
                         else if (inputUtente == "C")
                         {
+                            Console.WriteLine("Now choose the color you want to apply to the lamp");
+                            string newColor = "";
+                            do {
+                                Console.WriteLine("Choose from these colors: red, green, blue, purple, yellow, white");
+                                newColor = Console.ReadLine();
 
-                            classicLamp.ChangeColor(colors_of_lamp.green);
-                            Console.WriteLine("The color of the Classic Lamp has been changed to Green.");
+                            } while (newColor != "red" && newColor != "green" && newColor != "blue" && newColor != "purple" && newColor != "yellow" && newColor != "white");
+
+                            colors_of_lamp chosenColor = Enum.Parse<colors_of_lamp>(newColor);
+                            classicLamp.ChangeColor(chosenColor);
+                            Console.WriteLine($"The color of the Classic Lamp has been changed to {chosenColor}.");                         
+
                         }
 
                         // EcoLamp
@@ -79,8 +88,18 @@ namespace BlaisePascal.SmartHouse.Domain
                         }
                         else if (inputUtente == "H")
                         {
-                            ecoLamp.ChangeColor(colors_of_lamp.blue);
-                            Console.WriteLine("The color of the EcoLamp has been changed to Blue.");
+                            Console.WriteLine("Now choose the color you want to apply to the Ecolamp");
+                            string newColor = "";
+                            do
+                            {
+                                Console.WriteLine("Choose from these colors: red, green, blue, purple, yellow, white");
+                                newColor = Console.ReadLine();
+
+                            } while (newColor != "red" && newColor != "green" && newColor != "blue" && newColor != "purple" && newColor != "yellow" && newColor != "white");
+
+                            colors_of_lamp chosenColor = Enum.Parse<colors_of_lamp>(newColor);
+                            ecoLamp.ChangeColor(chosenColor);
+                            Console.WriteLine($"The color of the EcoLamp has been changed to {chosenColor}.");
                         }
                     }
                 }
