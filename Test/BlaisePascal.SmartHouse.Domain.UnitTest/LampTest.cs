@@ -42,42 +42,24 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
         // Test 4: The lamp is not dimmable, and a message is printed
 
-        // var stringWriter = new StringWrter --> It allows us to "capture" into memory the text that would normally be printed
-        // on the screen, making it readable by the automatic test.
-
-        // var expectedMessage = "This lamp is not dimmable." + Environment.NewLine; --> This is the invisible line break character that
-        // Console.WriteLine() always adds; we include it in the expected string to ensure an exact match.
-
         [Fact]
-        public void DimmableControl_NotDimmableButValidValue_PrintsMessage()
-        { 
-            var lamp = new Lamp("Test", "Led", 10, 500, false, "E27");
-            var stringWriter = new StringWriter();
-            Console.SetOut(stringWriter);    
-            var expectedMessage = "This lamp is not dimmable." + Environment.NewLine;
+        public void DimmableControl_NotDimmable_ThrowsException()
+        {
+            var lamp = new Lamp("Test", "LED", 10, 500, false, "E27");
 
-            lamp.DimmableControl(50.0);
-
-            Assert.Equal(expectedMessage, stringWriter.ToString());
-
+            Assert.Throws<InvalidOperationException>(() => lamp.DimmableControl(50.0));
         }
 
         // Test 5: The lamp is dimmable but the value is ivalidad, and a message is printed
 
         [Fact]
-        public void DimmableControl_invalidValue_showsErrorMessage()
+        public void DimmableControl_InvalidValue_ThrowsArgumentOutOfRangeException()
         {
-            var lamp = new Lamp("Test", "LED", 10, 500, true, "E27"); // è dimmerabile
-            var invalidBrightnessLevel = 150.0;
-            var stringWriter = new StringWriter();
-            Console.SetOut(stringWriter);
+            var lamp = new Lamp("Test", "LED", 10, 500, true, "E27");
 
-            var expectedMessage = "This lamp is not dimmable." + Environment.NewLine;
-
-            lamp.DimmableControl(invalidBrightnessLevel);
-
-            Assert.Equal(expectedMessage, stringWriter.ToString());
+            Assert.Throws<ArgumentOutOfRangeException>(() => lamp.DimmableControl(150.0));
         }
+
 
         // Test 6: ChangeColor method works correctly for LED lamps
 
@@ -92,16 +74,11 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         // Test 7: ChangeColor method prints an error message for non-LED lamps
 
         [Fact]
-        public void ChangeColor_lampIsNotLED_showsErrorMessage()
+        public void ChangeColor_LampIsNotLED_ThrowsException()
         {
-            var lamp = new Lamp("Test", "Incandescent", 10, 500, false, "E27"); 
-            var stringWriter = new StringWriter();
-            Console.SetOut(stringWriter);
-            var expectedMessage = "Error - The selected lamp type is not led RGB" + Environment.NewLine;
+            var lamp = new Lamp("Test", "Incandescent", 10, 500, false, "E27");
 
-            lamp.ChangeColor(colors_of_lamp.blue);
-
-            Assert.Equal(expectedMessage, stringWriter.ToString());
+            Assert.Throws<InvalidOperationException>(() => lamp.ChangeColor(colors_of_lamp.blue));
         }
 
         // Test del costruttore: Constructor_validParameters_createsObject

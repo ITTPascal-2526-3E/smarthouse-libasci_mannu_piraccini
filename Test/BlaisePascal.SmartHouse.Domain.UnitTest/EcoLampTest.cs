@@ -32,7 +32,6 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             var lamp = new Lamp("Test", "LED", 10, 500, true, "E27");
             var brightnessLevel = 50.0;
             lamp.DimmableControl(brightnessLevel);
-            // no Assert: test fallirà solo se viene lanciata un'eccezione
         }
 
         [Fact]
