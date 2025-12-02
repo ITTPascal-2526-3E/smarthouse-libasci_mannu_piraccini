@@ -13,19 +13,20 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
     {
         // Properties
         // Type of lamp (LED, Incandescent, Flourescent)
+        Guid id_lamp = Guid.NewGuid();
         public string brand { get; set; }
-        string type_of_lamp { get; set; }
+        public string TypeOfLamp { get; set; }
 
         // Technical characteristics
-        double power { get; set; } // in Watt
+        public double Power { get; set; } // in Watt
         public double max_brightness { get; set; } // in Lumen
 
         // Other characteristics
-        bool is_dimmable { get; set; } // true if the lamp is dimmable
-        string type_of_socket { get; set; } // E27, E14, GU10
+        public bool IsDimmable { get; set; } // true if the lamp is dimmable
+        public string TypeOfSocket { get; set; } // E27, E14, GU10
 
         // State of lamp
-        bool is_on = false;
+        public bool IsOn = false;
         private double current_brightness_percentage = 100;
         public colors_of_lamp actualColor { get; set; }
 
@@ -36,11 +37,11 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         public Lamp(string brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
         {
             brand = brand_v;
-            type_of_lamp = type_of_lamp_v;
-            power = power_v;
+            TypeOfLamp = type_of_lamp_v;
+            Power = power_v;
             max_brightness = max_brightness_v;
-            is_dimmable = is_dimmable_v;
-            type_of_socket = type_of_socket_v;
+            IsDimmable = is_dimmable_v;
+            TypeOfSocket = type_of_socket_v;
 
         }
 
@@ -60,12 +61,12 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
 
         public void TurnOnOrOff()
         {
-            is_on = !is_on;
+            IsOn = !IsOn;
         }
 
         public bool IsOn()
         {
-            return is_on;
+            return IsOn;
         }
 
         /*
@@ -88,7 +89,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
          */
         public void DimmableControl(double brightness_level)
         {
-            if (!is_dimmable)
+            if (!IsDimmable)
             {
                 throw new InvalidOperationException($"Error - This lamp '{brand}' is not dimmable.");
             }
@@ -116,7 +117,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
 
         public void ChangeColor(colors_of_lamp newColor)
         {
-            if (type_of_lamp != "LED")
+            if (TypeOfLamp != "LED")
             {
                 throw new InvalidOperationException("Error - The selected lamp type is not led RGB");
             }

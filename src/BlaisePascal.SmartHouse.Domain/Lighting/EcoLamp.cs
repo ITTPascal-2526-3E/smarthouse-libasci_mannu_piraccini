@@ -14,6 +14,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
     {
         // Properties
         // Type of lamp = LED
+        Guid id_ecoLamp = Guid.NewGuid();
         public string brand { get; set; }
 
         private string typeOfLamp = "LED";
@@ -33,7 +34,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         public TimeSpan AllTimeLampOn { get; set; } = TimeSpan.Zero;
 
         private double currentBrightnessPercentage = 70;
-        private colors_of_lamp actualColor;
+        public colors_of_lamp actualColor;
         public EcoLamp(string brand_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
         {
             brand = brand_v;
