@@ -26,13 +26,13 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         public void BothOn()
         {
             if (!eco.IsOn()) eco.TurnOnOrOff();
-            if (!normal.IsOn()) normal.TurnOnOrOff();
+            if (!normal.IsLampOn()) normal.TurnOnOrOff();
         }
 
         public void BothOff()
         {
             if (eco.IsOn()) eco.TurnOnOrOff();
-            if (normal.IsOn()) normal.TurnOnOrOff();
+            if (normal.IsLampOn()) normal.TurnOnOrOff();
         }
 
         public void EcoBrightness(double level)
@@ -69,7 +69,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
 
         public string GetStatus()
         {
-            return $"Eco: {(eco.IsOn() ? "ON" : "OFF")} | Normal: {(normal.IsOn() ? "ON" : "OFF")}";
+            return $"Eco: {(eco.IsOn() ? "ON" : "OFF")} | Normal: {(normal.IsLampOn() ? "ON" : "OFF")}";
         }
 
         public double EcoEnergy()

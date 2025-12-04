@@ -53,7 +53,7 @@ namespace BlaisePascal.SmartHouse.Domain
                         if (inputUtente == "A")
                         {
                             classicLamp.TurnOnOrOff();
-                            Console.WriteLine($"The Classic Lamp is now {(classicLamp.IsOn() ? "On" : "Off")}.");
+                            Console.WriteLine($"The Classic Lamp is now {(classicLamp.IsLampOn() ? "On" : "Off")}.");
                         }
                         else if (inputUtente == "B")
                         {
@@ -117,8 +117,8 @@ namespace BlaisePascal.SmartHouse.Domain
                                 Console.WriteLine($"Max Brightness (Lumen): {lamp.max_brightness}");
                                 Console.WriteLine($"Dimmable: {lamp.IsDimmable}");
                                 Console.WriteLine($"Socket Type: {lamp.TypeOfSocket}");
-                                Console.WriteLine($"Is On: {lamp.IsOn}");
-                                Console.WriteLine($"Current Brightness (%): {lamp.CurrentBrightness}");
+                                Console.WriteLine($"Is On: {lamp.IsLampOn}");
+                                Console.WriteLine($"Current Brightness (%): {lamp.DimmableControl}");
                                 Console.WriteLine($"Color: {lamp.actualColor}");
                                 Console.WriteLine($"ID: {lamp.id_lamp}");
                                 Console.WriteLine("---------------------\n");

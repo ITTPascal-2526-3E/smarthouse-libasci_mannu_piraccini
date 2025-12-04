@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             lamp.TurnOnOrOff();
 
-            Assert.True(lamp.IsOn());
+            Assert.True(lamp.IsLampOn());
         }
 
         // Test 2: The light of lamp starts off, then it is turned on, and then turned off again
@@ -26,7 +26,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
            
             lamp.TurnOnOrOff(); // Now turn it off
             
-            Assert.False(lamp.IsOn());
+            Assert.False(lamp.IsLampOn());
         }
 
         // Test 3: The lamp is dimmable, and a valid brightness level is provided (between 1 and 100)

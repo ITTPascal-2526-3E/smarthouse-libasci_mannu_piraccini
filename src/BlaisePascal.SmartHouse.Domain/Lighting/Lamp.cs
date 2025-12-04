@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
     {
         // Properties
         // Type of lamp (LED, Incandescent, Flourescent)
-        Guid id_lamp = Guid.NewGuid();
+        public Guid id_lamp = Guid.NewGuid();
         public string brand { get; set; }
         public string TypeOfLamp { get; set; }
 
@@ -64,7 +64,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
             IsOn = !IsOn;
         }
 
-        public bool IsOn()
+        public bool IsLampOn()
         {
             return IsOn;
         }
