@@ -27,7 +27,7 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
             if (!IsOn)
                 throw new InvalidOperationException("Cannot change fan speed while the device is off.");
 
-            if (speed >= 1 && speed <=5)
+            if (speed < 1 || speed > 5)
             {
                 throw new ArgumentOutOfRangeException(nameof(speed), "Fan speed must be between 1 and 5.");
             }
