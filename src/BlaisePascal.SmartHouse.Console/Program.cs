@@ -110,13 +110,13 @@ namespace BlaisePascal.SmartHouse.Domain
                             // --- CREATION ---
                             case "J": // Create EcoLamp
                                 Console.WriteLine("Creating new EcoLamp...");
-                                ecoLamp = CreateEcoLampWizard();
+                                ecoLamp =;
                                 Console.WriteLine("New EcoLamp created and selected!");
                                 break;
 
                             case "K": // Create Classic Lamp
                                 Console.WriteLine("Creating new Classic Lamp...");
-                                classicLamp = CreateLampWizard();
+                                classicLamp = ;
                                 Console.WriteLine("New Classic Lamp created and selected!");
                                 break;
 
@@ -203,26 +203,6 @@ namespace BlaisePascal.SmartHouse.Domain
                 Console.WriteLine($"[Eco] Consumed Energy: {eco.ConsumedEnergyInWH():F2} Wh");
             }
             Console.WriteLine("---------------------\n");
-        }
-
-        static Lamp CreateLampWizard()
-        {
-            Console.Write("Brand: "); string brand = Console.ReadLine();
-            Console.Write("Power (W): "); double power = double.Parse(Console.ReadLine());
-            Console.Write("Max Brightness (Lm): "); double lum = double.Parse(Console.ReadLine());
-            Console.Write("Socket (E27/E14): "); string socket = Console.ReadLine();
-
-            return new Lamp(brand, "LED", power, lum, true, socket);
-        }
-
-        static EcoLamp CreateEcoLampWizard()
-        {
-            Console.Write("Brand: "); string brand = Console.ReadLine();
-            Console.Write("Power (W): "); double power = double.Parse(Console.ReadLine());
-            Console.Write("Max Brightness (Lm): "); double lum = double.Parse(Console.ReadLine());
-            Console.Write("Socket (E27/E14): "); string socket = Console.ReadLine();
-
-            return new EcoLamp(brand, power, lum, true, socket);
         }
     }
 }

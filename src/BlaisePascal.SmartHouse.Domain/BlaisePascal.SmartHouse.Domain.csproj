@@ -6,10 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="TemperatureRegolation\**" />
-    <EmbeddedResource Remove="TemperatureRegolation\**" />
-    <None Remove="TemperatureRegolation\**" />
-  </ItemGroup>
-
 </Project>
