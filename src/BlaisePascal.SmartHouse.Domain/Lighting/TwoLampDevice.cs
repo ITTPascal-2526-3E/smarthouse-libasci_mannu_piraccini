@@ -1,81 +1,38 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Lighting;
 
-namespace BlaisePascal.SmartHouse.Domain.Lighting
+public class TwoLampDevice
 {
-    public class TwoLampDevice
+    public Guid DeviceId { get; } = Guid.NewGuid();
+
+    // Contiene una Lampada standard
+    public Lamp MainLamp { get; set; }
+
+    // Contiene una EcoLamp
+    public EcoLamp EnergySaverLamp { get; set; }
+
+    public TwoLampDevice(Lamp standardLamp, EcoLamp ecoLamp)
     {
-        public EcoLamp eco;
-        public Lamp normal;
+        MainLamp = standardLamp ?? throw new ArgumentNullException(nameof(standardLamp));
+        EnergySaverLamp = ecoLamp ?? throw new ArgumentNullException(nameof(ecoLamp));
+    }
 
-        public TwoLampDevice(EcoLamp ecoLamp, Lamp normalLamp)
-        {
-            eco = ecoLamp;
-            normal = normalLamp;
-        }
+    // Esempio di metodo per accendere tutto il dispositivo
+    public void TurnOnAll()
+    {
+        if (!MainLamp.IsLampOn()) MainLamp.TurnOnOrOff();
+        if (!EnergySaverLamp.IsLampOn()) EnergySaverLamp.TurnOnOrOff();
+    }
 
-        public void EcoOnOff()
-        {
-            eco.TurnOnOrOff();
-        }
+    // Esempio di metodo per spegnere tutto
+    public void TurnOffAll()
+    {
+        if (MainLamp.IsLampOn()) MainLamp.TurnOnOrOff();
+        if (EnergySaverLamp.IsLampOn()) EnergySaverLamp.TurnOnOrOff();
+    }
 
-        public void NormalOnOff()
-        {
-            normal.TurnOnOrOff();
-        }
-
-        public void BothOn()
-        {
-            if (!eco.IsOn()) eco.TurnOnOrOff();
-            if (!normal.IsLampOn()) normal.TurnOnOrOff();
-        }
-
-        public void BothOff()
-        {
-            if (eco.IsOn()) eco.TurnOnOrOff();
-            if (normal.IsLampOn()) normal.TurnOnOrOff();
-        }
-
-        public void EcoBrightness(double level)
-        {
-            eco.DimmableControl(level);
-        }
-
-        public void NormalBrightness(double level)
-        {
-            normal.DimmableControl(level);
-        }
-
-        public void BothBrightness(double level)
-        {
-            eco.DimmableControl(level);
-            normal.DimmableControl(level);
-        }
-
-        public void EcoColor(colors_of_lamp color)
-        {
-            eco.ChangeColor(color);
-        }
-
-        public void NormalColor(colors_of_lamp color)
-        {
-            normal.ChangeColor(color);
-        }
-
-        public void BothColor(colors_of_lamp color)
-        {
-            eco.ChangeColor(color);
-            normal.ChangeColor(color);
-        }
-
-        public string GetStatus()
-        {
-            return $"Eco: {(eco.IsOn() ? "ON" : "OFF")} | Normal: {(normal.IsLampOn() ? "ON" : "OFF")}";
-        }
-
-        public double EcoEnergy()
-        {
-            return eco.ConsumedEnergyInWH();
-        } 
-
+    // Metodo per ottenere il consumo totale combinato (considerando che solo EcoLamp traccia il tempo nel nostro esempio)
+    public double GetEcoStats()
+    {
+        return EnergySaverLamp.ConsumedEnergyInWH();
     }
 }

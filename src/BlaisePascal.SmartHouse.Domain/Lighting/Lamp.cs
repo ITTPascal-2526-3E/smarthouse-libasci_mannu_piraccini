@@ -24,9 +24,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         // Other characteristics
         public bool IsDimmable { get; set; } // true if the lamp is dimmable
         public string TypeOfSocket { get; set; } // E27, E14, GU10
+        public bool IsOn { get; set; } 
+
 
         // State of lamp
-        public bool IsOn = false;
         private double current_brightness_percentage = 100;
         public colors_of_lamp actualColor { get; set; }
 
@@ -42,24 +43,12 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
             max_brightness = max_brightness_v;
             IsDimmable = is_dimmable_v;
             TypeOfSocket = type_of_socket_v;
+            
 
         }
 
-        /*
-         public void TurnOnOrOff()
-        {
-         if (is_on == false) // if the lamp is off
-            {
-                is_on = true; // turn it on
-            }
-            else
-            {
-                is_on = false; // turn it off
-            } 
-        }
-        */
 
-        public void TurnOnOrOff()
+        public virtual void TurnOnOrOff()
         {
             IsOn = !IsOn;
         }
@@ -69,25 +58,8 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
             return IsOn;
         }
 
-        /*
-         public void DimmableControl(double brightness_level)
-        {
-            if (!is_dimmable)
-            {
-                Console.WriteLine($"Errore - This lamp is not dimmable.");
-                return;
-            }
-            if (brightness_level < 1.0 || brightness_level > 100.0)
-            {
-                Console.WriteLine($"Error - The brightness level must be between 1 and 100.");
-                return;
-            }
-
-            current_brightness_percentage = brightness_level;
-            Console.WriteLine($"The brightness level has been set to {current_brightness_percentage}%.");
-        }
-         */
-        public void DimmableControl(double brightness_level)
+       
+        public virtual void DimmableControl(double brightness_level)
         {
             if (!IsDimmable)
             {
@@ -100,20 +72,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
             current_brightness_percentage = brightness_level;
         }
 
-        /*
-         public void ChangeColor(colors_of_lamp newColor)
-        {
-            colors_of_lamp actualColor;
-            if (type_of_lamp == "LED")
-            {
-                actualColor = newColor;
-            }
-            else
-            {
-                Console.WriteLine("Error - The selected lamp type is not led RGB");
-            }
-        }
-        */
+       
 
         public void ChangeColor(colors_of_lamp newColor)
         {
