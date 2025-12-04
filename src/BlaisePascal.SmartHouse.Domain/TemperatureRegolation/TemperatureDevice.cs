@@ -5,8 +5,8 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
     public class TemperatureDevice
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
-        public string Brand { get; set; }
-        public double PowerW { get; set; }
+        public string Brand { get; private set; }
+        public double PowerW { get; private set; }
         public bool IsOn { get; protected set; } = false;
         public double TargetTemperature { get; protected set; } = 20.0; 
 

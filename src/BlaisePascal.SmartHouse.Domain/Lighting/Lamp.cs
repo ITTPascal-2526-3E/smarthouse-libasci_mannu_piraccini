@@ -14,25 +14,22 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         // Properties
         // Type of lamp (LED, Incandescent, Flourescent)
         public Guid id_lamp = Guid.NewGuid();
-        public string brand { get; set; }
-        public string TypeOfLamp { get; set; }
+        public string brand { get; private set; }
+        public string TypeOfLamp { get; private set; }
 
         // Technical characteristics
-        public double Power { get; set; } // in Watt
-        public double max_brightness { get; set; } // in Lumen
+        public double Power { get; private set; } // in Watt
+        public double max_brightness { get; private set; } // in Lumen
 
         // Other characteristics
-        public bool IsDimmable { get; set; } // true if the lamp is dimmable
-        public string TypeOfSocket { get; set; } // E27, E14, GU10
-        public bool IsOn { get; set; } 
+        public bool IsDimmable { get; private set; } // true if the lamp is dimmable
+        public string TypeOfSocket { get; private set; } // E27, E14, GU10
+        public bool IsOn { get;  set; } 
 
 
         // State of lamp
-        private double current_brightness_percentage = 100;
-        public colors_of_lamp actualColor { get; set; }
-
-
-        private int id { get; set; }
+        public double current_brightness_percentage { get; private set; } = 100.0;  
+        public colors_of_lamp actualColor { get; private set; }
 
 
         public Lamp(string brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)

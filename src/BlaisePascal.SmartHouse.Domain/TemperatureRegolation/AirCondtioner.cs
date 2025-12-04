@@ -16,7 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
 
         public void SetMode(AcMode mode)
         {
-            if (!IsOn)
+            if (IsOn == false)
                 throw new InvalidOperationException("Cannot change mode while the device is off.");
 
             CurrentMode = mode;

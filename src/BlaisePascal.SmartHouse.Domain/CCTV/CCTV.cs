@@ -12,17 +12,17 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
     {
        
         public Guid Id { get; private set; }
-        public string Name { get; set; }
-        public DeviceStatus Status { get; set; }
-        public CCTVStatus CCTVState { get; set; }
-        public int ImageResolution { get; set; }
+        public string Name { get; private set; }
+        public DeviceStatus Status { get; private set; }
+        public CCTVStatus CCTVState { get; private set; }
+        public int ImageResolution { get; private set; }
         public bool NightVision { get; set; }
-        public string Lens { get; set; }
-        public bool WideDynamicRange { get; set; }
-        public bool WeatherResistance { get; set; }      
-        public int Connectivity { get; set; }
-        public string Storage { get; set; }
-        public bool DataCompression { get; set; }
+        public string Lens { get; private set; }
+        public bool WideDynamicRange { get; private set; }
+        public bool WeatherResistance { get; private set; }      
+        public int Connectivity { get; private set; }
+        public string Storage { get; private set; }
+        public bool DataCompression { get; private set; }
 
         public CCTV(string name)
         {
