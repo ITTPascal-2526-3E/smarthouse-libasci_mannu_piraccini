@@ -4,9 +4,11 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
 {
     public class AirConditioner : TemperatureDevice
     {
+        //additional attributes compared to the mother class
         public AcMode CurrentMode { get; private set; }
         public int FanSpeed { get; private set; }
 
+        //constructor in which attributes of the mother class are also passed
         public AirConditioner(string brand, double power)
             : base(brand, power)
         {
@@ -14,6 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
             FanSpeed = 3;
         }
 
+        //Changes the mode
         public void SetMode(AcMode mode)
         {
             if (IsOn == false)
@@ -22,6 +25,7 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
             CurrentMode = mode;
         }
 
+        //changes fan speed
         public void SetFanSpeed(int speed)
         {
             if (!IsOn)

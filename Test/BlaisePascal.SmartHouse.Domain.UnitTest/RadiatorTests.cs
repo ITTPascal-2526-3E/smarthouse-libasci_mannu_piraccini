@@ -9,6 +9,12 @@ public class RadiatorTests
     {
         var radiator = new Radiator("Test", 1500, 5);
 
+        // We used the lambda expression because calling the SetTemperature() function directly would execute it 
+        // immediately, before it is passed to Assert.Throws. 
+        // The lambda is a concise way to write an anonymous function, and this way the method is executed only 
+        // when the lambda is invoked, allowing Assert.Throws to intercept the exceptions.
+
+
         Assert.Throws<InvalidOperationException>(() => radiator.SetTemperature(30));
     }
 
