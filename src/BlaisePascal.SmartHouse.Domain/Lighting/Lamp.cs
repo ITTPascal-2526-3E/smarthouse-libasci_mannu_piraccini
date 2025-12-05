@@ -49,12 +49,6 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         {
             IsOn = !IsOn;
         }
-
-        public bool IsLampOn()
-        {
-            return IsOn;
-        }
-
        
         public virtual void DimmableControl(double brightness_level)
         {

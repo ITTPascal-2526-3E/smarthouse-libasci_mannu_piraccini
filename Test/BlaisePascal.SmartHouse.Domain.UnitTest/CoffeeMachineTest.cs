@@ -12,42 +12,23 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
     {
         // Test 1: Test turning the machine on when it is off
         [Fact]
-        public void TurnOn_WhenMachineIsOff_TurnsOn()
+        public void TurnOnOrOff_WhenMachineIsOff_TurnsOn()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
+            machine.TurnOnOrOff();
 
-            Assert.True(machine.IsOn());
-        }
-
-        // Test 2: Test turning the machine on when it is already on
-        [Fact]
-        public void TurnOn_WhenMachineIsOn_ThrowsException()
-        {
-            var machine = new CoffeeMachine();
-            machine.TurnOn();
-
-            Assert.Throws<InvalidOperationException>(machine.TurnOn);
+            Assert.True(machine.IsOn);
         }
 
         // Test 3: Test turning the machine off when it is on
         [Fact]
-        public void TurnOff_WhenMachineIsOn_TurnsOff()
+        public void TurnOnOrOff_WhenMachineIsOn_TurnsOff()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
-            machine.TurnOff();
+            machine.TurnOnOrOff();
+            machine.TurnOnOrOff();
 
-            Assert.False(machine.IsOn());
-        }
-
-        // Test 4: Test turning the machine off when it is already off
-        [Fact]
-        public void TurnOff_WhenMachineIsOff_ThrowsException()
-        {
-            var machine = new CoffeeMachine();
-
-            Assert.Throws<InvalidOperationException>(machine.TurnOff);
+            Assert.False(machine.IsOn);
         }
 
         // Test 5: Test adding water when the machine is off and amount is valid
@@ -55,10 +36,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void AddWater_WhenMachineOffAndValidAmount_AddsWater()
         {
             var machine = new CoffeeMachine();
-            machine.waterLevel = 10;
-            machine.AddWater(30);
+            machine.AddWater(10);
 
-            Assert.Equal(40, machine.WaterLevel());
+            Assert.Equal(10, machine.WaterLevel);
         }
 
         // Test 6: Test adding water when the machine is on
@@ -66,7 +46,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void AddWater_WhenMachineOn_ThrowsException()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
+            machine.TurnOnOrOff();
 
             // Assert.Throws<ArgumentException>(machine.AddWater(20)); // ❌ ERRORE
             // Wrapper necessario perché Assert.Throws richiede un metodo senza parametri
@@ -80,10 +60,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void AddWater_TooMuch_ThrowsException()
         {
             var machine = new CoffeeMachine();
-            machine.waterLevel = 90;
-            void AddWaterWrapped() { machine.AddWater(11); }
+            machine.AddWater(90);
 
-            Assert.Throws<ArgumentException>(AddWaterWrapped);
+            Assert.Throws<ArgumentException>(() => machine.AddWater(11));
         }
 
         // Test 8: Test removing water when the machine is on and amount is valid
@@ -91,11 +70,11 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RemoveWater_WhenMachineOnAndValidAmount_RemovesWater()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
-            machine.waterLevel = 50;
+            machine.TurnOnOrOff();
+            machine.AddWater(50);
             machine.RemoveWater(20);
 
-            Assert.Equal(30, machine.WaterLevel());
+            Assert.Equal(30, machine.WaterLevel);
         }
 
         // Test 9: rimuovere acqua quando la macchina è spenta
@@ -103,7 +82,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RemoveWater_WhenMachineOff_ThrowsException()
         {
             var machine = new CoffeeMachine();
-            machine.waterLevel = 50;
+            machine.AddWater(50);
 
             void RemoveWaterWrapped() { machine.RemoveWater(20); }
             Assert.Throws<InvalidOperationException>(RemoveWaterWrapped);
@@ -114,8 +93,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RemoveWater_TooMuch_ThrowsException()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
-            machine.waterLevel = 10;
+            machine.TurnOnOrOff();
+            machine.AddWater(10);
 
             void RemoveWaterWrapped() { machine.RemoveWater(20); }
             Assert.Throws<ArgumentException>(RemoveWaterWrapped);
@@ -129,7 +108,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             var machine = new CoffeeMachine();
             machine.PlaceCup();
 
-            Assert.True(machine.IsCupPresent());
+            Assert.True(machine.IsCupPresent);
         }
 
         // Test 12: Test placing a cup when a cup is already present
@@ -150,7 +129,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             machine.PlaceCup();
             machine.RemoveCup();
 
-            Assert.False(machine.IsCupPresent());
+            Assert.False(machine.IsCupPresent);
         }
 
         // Test 14: Test removing a cup when no cup is present
@@ -167,14 +146,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void MakeCoffee_ValidConditions_MakesCoffee()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
-            machine.waterLevel = 50;
+            machine.TurnOnOrOff();
+            machine.AddWater(50);
             machine.PlaceCup();
             machine.MakeCoffee();
 
-            Assert.Equal(30, machine.WaterLevel());
-            Assert.False(machine.IsCupPresent());
-            Assert.False(machine.IsBrewing());
+            Assert.Equal(30, machine.WaterLevel);
+            Assert.False(machine.IsCupPresent);
+            Assert.False(machine.IsBrewing);
         }
 
         // Test 16: Test making coffee with not enough water
@@ -182,8 +161,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void MakeCoffee_NotEnoughWater_ThrowsException()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
-            machine.waterLevel = 10;
+            machine.TurnOnOrOff();
+            machine.AddWater(10);
             machine.PlaceCup();
 
             Assert.Throws<InvalidOperationException>(machine.MakeCoffee);
@@ -194,8 +173,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void MakeCoffee_NoCup_ThrowsException()
         {
             var machine = new CoffeeMachine();
-            machine.TurnOn();
-            machine.waterLevel = 50;
+            machine.TurnOnOrOff();
+            machine.AddWater(50);
 
             Assert.Throws<InvalidOperationException>(machine.MakeCoffee);
         }
@@ -205,7 +184,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void MakeCoffee_MachineOff_ThrowsException()
         {
             var machine = new CoffeeMachine();
-            machine.waterLevel = 50;
+            machine.AddWater(50);
             machine.PlaceCup();
 
             Assert.Throws<InvalidOperationException>(machine.MakeCoffee);

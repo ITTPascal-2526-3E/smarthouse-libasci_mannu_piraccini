@@ -15,8 +15,8 @@ namespace BlaisePascal.SmartHouse
             Lamp lamp2 = new Lamp("Philips", "LED", 60.0, 800.0, true, "E27");
             lamp.TurnOnOrOff();
             lamp.TurnOnOrOff();
-            Console.WriteLine("Lamp is on: " + lamp.IsLampOn());
-            Console.WriteLine("Lamp is off: "  + lamp.IsLampOn());
+            Console.WriteLine("Lamp is on: " + lamp.IsOn);
+            Console.WriteLine("Lamp is off: "  + lamp.IsOn);
             Console.WriteLine("Lamp power: " + lamp.Power + " Watt");
             Console.WriteLine("Lamp brand: " + lamp.brand);
             Console.WriteLine("Lamp max brightness: " + lamp.max_brightness + " Lumen");
@@ -34,9 +34,9 @@ namespace BlaisePascal.SmartHouse
             EcoLamp ecoLamp = new EcoLamp("Osram", 15.0, 1000.0, true, "E27");
             EcoLamp ecoLamp2 = new EcoLamp("Osram", 15.0, 1000.0, true, "E27");
             ecoLamp.TurnOnOrOff();
-            Console.WriteLine("EcoLamp is on: " + ecoLamp.IsLampOn());
+            Console.WriteLine("EcoLamp is on: " + ecoLamp.IsOn);
             ecoLamp.TurnOnOrOff();
-            Console.WriteLine("EcoLamp is off: " + ecoLamp.IsLampOn());
+            Console.WriteLine("EcoLamp is off: " + ecoLamp.IsOn);
             Console.WriteLine("EcoLamp power: " + ecoLamp.Power + " Watt");
             Console.WriteLine("EcoLamp brand: " + ecoLamp.brand);
             ecoLamp.DimmableControl(50);

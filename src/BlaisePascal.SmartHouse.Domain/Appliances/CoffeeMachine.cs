@@ -9,133 +9,99 @@ namespace BlaisePascal.SmartHouse.Domain.Appliances
     public class CoffeeMachine
     {
         public Guid Id = Guid.NewGuid();
-        public bool isOn = false;
-        public bool isBrewing = false;
-        public bool isCupPresent = false;
+        public bool IsOn { get; set; } = false;
+        public bool IsBrewing { get; private set; } = false;
+        public bool IsCupPresent { get; private set; } = false;
 
-        public int waterLevel = 0; // from 0 to 100 percent
+        public int WaterLevel { get; private set; } = 0; // from 0 to 100 percent
 
         // Turn Coffee Machine ON
-        public void TurnOn()
+        public void TurnOnOrOff()
         {
-            if (isOn == true)
-                throw new InvalidOperationException("The coffee machine is already on.");
-
-            isOn = true;
-        }
-
-        // Turn Coffee Machine OFF
-        public void TurnOff()
-        {
-            if (isOn == false)
-                throw new InvalidOperationException("The coffee machine is already off.");
-
-            if (isBrewing)
-                throw new InvalidOperationException("Cannot turn off the machine while brewing coffee.");
-
-            isOn = false;
+            IsOn = !IsOn;
         }
 
         // Add water (0–100)
         public void AddWater(int amount)
         {
-            if (isOn == true)
+            if (IsOn == true)
                 throw new InvalidOperationException("Turn the machine off before adding water.");
 
             if (amount <= 0)
                 throw new ArgumentException("Amount of water must be greater than zero.");
 
-            if (amount > 100 - waterLevel)
+            if (amount > 100 - WaterLevel)
                 throw new ArgumentException("Cannot add that much water. It would exceed the maximum capacity of 100%.");
 
             else
-                waterLevel += amount;
+                WaterLevel += amount;
         }
 
         // Remove water
         public void RemoveWater(int amount)
         {
-            if (isOn == false)
+            if (IsOn == false)
                 throw new InvalidOperationException("Turn the machine on before removing water.");
 
             if (amount <= 0)
                 throw new ArgumentException("Amount of water must be greater than zero.");
 
-            if (amount > waterLevel)
+            if (amount > WaterLevel)
                 throw new ArgumentException("Cannot remove that much water. Not enough water in the machine.");
             else
-                waterLevel -= amount;
+                WaterLevel -= amount;
 
         }
 
         // Place cup
         public void PlaceCup()
         {
-            if (isCupPresent == true)
+            if (IsCupPresent == true)
                 throw new InvalidOperationException("A cup is already present.");
 
-            isCupPresent = true;
+            IsCupPresent = true;
         }
 
         // Remove cup
         public void RemoveCup()
         {
-            if (isBrewing == true)
+            if (IsBrewing == true)
                 throw new InvalidOperationException("Cannot remove the cup while brewing coffee.");
 
-            if (isCupPresent == false)
+            if (IsCupPresent == false)
                 throw new InvalidOperationException("There is no cup to remove.");
 
-            isCupPresent = false;
+            IsCupPresent = false;
         }
 
         // Make a coffee
         public void MakeCoffee()
         {
-            if (isOn == false)
+            if (IsOn == false)
                 throw new InvalidOperationException("The machine must be on to make coffee.");
 
-            if (isCupPresent == false)
+            if (IsCupPresent == false)
                 throw new InvalidOperationException("You must place a cup before making coffee.");
 
-            if (isBrewing == true)
+            if (IsBrewing == true)
                 throw new InvalidOperationException("The machine is already brewing.");
 
-            if (waterLevel < 20)
+            if (WaterLevel < 20)
                 throw new InvalidOperationException("Not enough water to make coffee.");
 
             else
 
-                isBrewing = true;
+                IsBrewing = true;
 
-            waterLevel -= 20;
+            WaterLevel -= 20;
 
             // The coffee is ready, the machine stops working
-            isBrewing = false;
+            IsBrewing = false;
 
             // The cup is removed automatically
-            isCupPresent = false;
+            IsCupPresent = false;
         }
 
-        public bool IsOn()
-        {
-            return isOn;
-        }
-
-        public bool IsBrewing()
-        {
-            return isBrewing;
-        }
-
-        public bool IsCupPresent()
-        {
-            return isCupPresent;
-        }
-
-        public int WaterLevel()
-        {
-            return waterLevel;
-        }
     }
 
 }
