@@ -1,8 +1,9 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Appliances;
+using BlaisePascal.SmartHouse.Domain.CCTV;
+using BlaisePascal.SmartHouse.Domain.Fixutures;
 using BlaisePascal.SmartHouse.Domain.Lighting;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
-using BlaisePascal.SmartHouse.Domain.Fixutures;
-using BlaisePascal.SmartHouse.Domain.CCTV;
+using System;
 
 namespace BlaisePascal.SmartHouse
 {
@@ -125,6 +126,35 @@ namespace BlaisePascal.SmartHouse
             Console.WriteLine("CCTV State after stop: " + cam.CCTVState);
             Console.WriteLine(cam.Id);
             Console.WriteLine(cam2.Id);
+
+            Console.WriteLine();
+
+            CoffeeMachine cm = new CoffeeMachine();
+            CoffeeMachine cm2 = new CoffeeMachine();
+
+            Console.WriteLine("CoffeeMachine is ON: " + cm.IsOn());
+            cm.TurnOn();
+            Console.WriteLine("CoffeeMachine is ON after turning on: " + cm.IsOn());
+
+            cm.TurnOff();
+            Console.WriteLine("CoffeeMachine is OFF: " + cm.IsOn());
+
+            cm.AddWater(50);
+            Console.WriteLine("Water Level: " + cm.WaterLevel() + "%");
+
+            cm.AddWater(30);
+            Console.WriteLine("Water Level: " + cm.WaterLevel() + "%");
+
+            cm.TurnOn();
+            cm.PlaceCup();
+            cm.MakeCoffee();
+
+            Console.WriteLine("Water Level after coffee: " + cm.WaterLevel() + "%");
+            Console.WriteLine("Cup present after coffee: " + cm.IsCupPresent());
+            Console.WriteLine("Machine brewing: " + cm.IsBrewing());
+
+            Console.WriteLine("CoffeeMachine ID: " + cm.Id);
+            Console.WriteLine("CoffeeMachine2 ID: " + cm2.Id);
 
             Console.ReadLine();
         }
