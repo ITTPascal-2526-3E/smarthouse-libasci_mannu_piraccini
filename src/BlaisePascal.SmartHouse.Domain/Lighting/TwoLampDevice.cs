@@ -19,15 +19,15 @@ public class TwoLampDevice
 
     public void TurnOnAll()
     {
-        if (!MainLamp.IsLampOn()) MainLamp.TurnOnOrOff();
-        if (!EnergySaverLamp.IsLampOn()) EnergySaverLamp.TurnOnOrOff();
+        if (!MainLamp.IsOn) MainLamp.TurnOnOrOff();
+        if (!EnergySaverLamp.IsOn) EnergySaverLamp.TurnOnOrOff();
     }
 
 
     public void TurnOffAll()
     {
-        if (MainLamp.IsLampOn()) MainLamp.TurnOnOrOff();
-        if (EnergySaverLamp.IsLampOn()) EnergySaverLamp.TurnOnOrOff();
+        if (MainLamp.IsOn) MainLamp.TurnOnOrOff();
+        if (EnergySaverLamp.IsOn) EnergySaverLamp.TurnOnOrOff();
     }
 
 

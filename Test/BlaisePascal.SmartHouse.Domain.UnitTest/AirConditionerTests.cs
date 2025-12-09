@@ -59,7 +59,7 @@ public class AirConditionerTests
     }
 
     [Fact]
-    public void SetFanSpeed_ValidFanSpeed_ShouldSetCorrectly()
+    public void SetFanSpeed_ValidFanSpeed_SetCorrectSpeed()
     {
         var ac = new AirConditioner("Test", 2000);
 

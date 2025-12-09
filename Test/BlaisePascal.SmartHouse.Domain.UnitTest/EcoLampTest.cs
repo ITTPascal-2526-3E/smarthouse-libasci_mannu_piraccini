@@ -14,7 +14,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             var lamp = new Lamp("Test", "LED", 10, 500, true, "E27");
             lamp.TurnOnOrOff();
-            Assert.True(lamp.IsLampOn());
+            Assert.True(lamp.IsOn);
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             var lamp = new Lamp("Test", "LED", 10, 500, true, "E27");
             lamp.TurnOnOrOff(); // on
             lamp.TurnOnOrOff(); // off
-            Assert.False(lamp.IsLampOn());
+            Assert.False(lamp.IsOn);
         }
 
         [Fact]

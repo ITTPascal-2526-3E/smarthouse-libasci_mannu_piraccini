@@ -13,9 +13,9 @@ namespace BlaisePascal.SmartHouse.Domain.Appliances
         public bool IsBrewing { get; private set; } = false;
         public bool IsCupPresent { get; private set; } = false;
 
-        public int WaterLevel { get; private set; } = 0; // from 0 to 100 percent
+        public int WaterLevel { get; private set; } = 0;
 
-        // Turn Coffee Machine ON
+        // Turn Coffee Machine ON or OFF
         public void TurnOnOrOff()
         {
             IsOn = !IsOn;
@@ -40,8 +40,8 @@ namespace BlaisePascal.SmartHouse.Domain.Appliances
         // Remove water
         public void RemoveWater(int amount)
         {
-            if (IsOn == false)
-                throw new InvalidOperationException("Turn the machine on before removing water.");
+            if (IsOn == true) 
+                throw new InvalidOperationException("Turn the machine off before removing water.");
 
             if (amount <= 0)
                 throw new ArgumentException("Amount of water must be greater than zero.");
