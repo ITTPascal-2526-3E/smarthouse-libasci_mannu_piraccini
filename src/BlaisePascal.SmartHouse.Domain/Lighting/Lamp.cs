@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Console;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Lighting
 {
-    public class Lamp
+    public class Lamp : ILuminous
     {
         // Properties
         // Type of lamp (LED, Incandescent, Flourescent)
