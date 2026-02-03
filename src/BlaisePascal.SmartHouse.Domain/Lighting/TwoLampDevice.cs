@@ -1,6 +1,7 @@
-﻿using BlaisePascal.SmartHouse.Domain.Lighting;
+﻿using BlaisePascal.SmartHouse.Console;
+using BlaisePascal.SmartHouse.Domain.Lighting;
 
-public sealed class TwoLampDevice
+public sealed class TwoLampDevice   // ISwithcable
 {
     public Guid DeviceId { get; } = Guid.NewGuid();
 
@@ -17,17 +18,30 @@ public sealed class TwoLampDevice
     }
 
 
-    public void TurnOnAll()
+    public void TurnOnOrOff()
     {
-        if (!MainLamp.IsOn) MainLamp.TurnOnOrOff();
-        if (!EnergySaverLamp.IsOn) EnergySaverLamp.TurnOnOrOff();
-    }
+        if  (!MainLamp.IsOn && !EnergySaverLamp.IsOn) 
+        {
+            MainLamp.TurnOnOrOff();
+            EnergySaverLamp.TurnOnOrOff();
+        }
 
+        else if (MainLamp.IsOn && EnergySaverLamp.IsOn)
+        {
+                MainLamp.TurnOnOrOff();
+                EnergySaverLamp.TurnOnOrOff();
+        }
 
-    public void TurnOffAll()
-    {
-        if (MainLamp.IsOn) MainLamp.TurnOnOrOff();
-        if (EnergySaverLamp.IsOn) EnergySaverLamp.TurnOnOrOff();
+        else if (!MainLamp.IsOn && EnergySaverLamp.IsOn)
+        {
+            EnergySaverLamp.TurnOnOrOff();
+        }
+
+        else 
+        {
+            MainLamp.TurnOnOrOff();
+        }
+
     }
 
 

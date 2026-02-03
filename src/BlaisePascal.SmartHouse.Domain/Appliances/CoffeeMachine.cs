@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Appliances
 {
-    public class CoffeeMachine
+    public class CoffeeMachine : ISwitchable
     {
         public Guid Id = Guid.NewGuid();
         public bool IsOn { get; set; } = false;

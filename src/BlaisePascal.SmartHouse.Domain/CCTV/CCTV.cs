@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
-    public class CCTV : ISwitchable
+    public sealed class CCTV : ISwitchable
     {
        
         public Guid Id { get; private set; }
