@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Console
+namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
     public interface ISwitchable
     {

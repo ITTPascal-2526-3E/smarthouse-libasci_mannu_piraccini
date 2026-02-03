@@ -8,6 +8,6 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegolation
 {
     internal interface ITemperature
     {
-        void SetTemperatur(double temp);
+        void SetTemperature(double temp);
     }
 }

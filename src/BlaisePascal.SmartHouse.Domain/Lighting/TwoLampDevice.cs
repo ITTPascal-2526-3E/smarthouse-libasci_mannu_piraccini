@@ -1,6 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Lighting;
 
-public class TwoLampDevice
+public sealed class TwoLampDevice
 {
     public Guid DeviceId { get; } = Guid.NewGuid();
 

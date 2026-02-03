@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace BlaisePascal.SmartHouse.Domain.Lighting
 {
-    public class EcoLamp : Lamp
+    public sealed class EcoLamp : Lamp
     {
         private DateTime turnedOnTime;
         public TimeSpan AllTimeLampOn { get; set; } = TimeSpan.Zero;

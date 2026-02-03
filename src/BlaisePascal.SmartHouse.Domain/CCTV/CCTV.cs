@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
-    public class CCTV
+    public class CCTV : ISwitchable
     {
        
         public Guid Id { get; private set; }
@@ -33,15 +34,19 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
             CCTVState = CCTVStatus.Idle;    // stato iniziale
         }
 
-        public void TurnOn()
+        public void TurnOnOrOff()
         {
-            Status = DeviceStatus.Online;
-        }
-
-        public void TurnOff()
-        {
-            Status = DeviceStatus.Offline;
-            CCTVState = CCTVStatus.Idle;
+            if (Status == DeviceStatus.Offline) 
+            {
+                Status = DeviceStatus.Online;
+            }
+            else 
+            {
+                Status = DeviceStatus.Offline;
+                CCTVState = CCTVStatus.Idle;
+            }
+           
+           
         }
 
         public void StartRecording()
