@@ -2,7 +2,7 @@
 
 namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
 {
-    public class Radiator : TemperatureDevice
+    public sealed class Radiator : TemperatureDevice
     {
         //additional attributes compared to the mother class
         public int NumberOfElements { get; set; }

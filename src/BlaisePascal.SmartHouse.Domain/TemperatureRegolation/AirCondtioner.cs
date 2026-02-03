@@ -2,7 +2,7 @@
 
 namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
 {
-    public class AirConditioner : TemperatureDevice
+    public sealed class AirConditioner : TemperatureDevice
     {
         //additional attributes compared to the mother class
         public AcMode CurrentMode { get; private set; }

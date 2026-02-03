@@ -1,8 +1,10 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.TemperatureRegolation;
+using System;
 
 namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
 {
-    public class TemperatureDevice
+    public abstract class TemperatureDevice : ISwitchable, ITemperature
     {
         //parent class attributes
         public Guid Id { get; private set; } = Guid.NewGuid();
