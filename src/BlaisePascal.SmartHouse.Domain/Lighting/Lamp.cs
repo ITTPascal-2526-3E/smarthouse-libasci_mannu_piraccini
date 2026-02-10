@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Console;
+using BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         // Properties
         // Type of lamp (LED, Incandescent, Flourescent)
         public Guid id_lamp = Guid.NewGuid();
-        public string brand { get; private set; }
+        public Brand brand { get; private set; }
         public string TypeOfLamp { get; private set; }
 
         // Technical characteristics
@@ -33,7 +34,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
         public colors_of_lamp actualColor { get; private set; }
 
 
-        public Lamp(string brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
+        public Lamp(Brand brand_v, string type_of_lamp_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
         {
             brand = brand_v;
             TypeOfLamp = type_of_lamp_v;
@@ -41,8 +42,6 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
             max_brightness = max_brightness_v;
             IsDimmable = is_dimmable_v;
             TypeOfSocket = type_of_socket_v;
-            
-
         }
 
 

@@ -45,6 +45,9 @@ class Program
 
         Console.WriteLine();
 
+        // string brand = Console.ReadLine();
+        // Lamp l1 = new Lamp(new Brand("Generic"), "LED", 10, 100, true, "E14");
+
         Lamp l1 = new Lamp("Generic", "LED", 10, 100, true, "E14");
         EcoLamp l2 = new EcoLamp("EcoGen", 10, 100, true, "E14");
         TwoLampDevice device = new TwoLampDevice(l1, l2);
