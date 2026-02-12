@@ -43,7 +43,7 @@ namespace BlaisePascal.SmartHouse.Domain.Fixutures
         public bool IsLocked()
         {
             return isLocked;
-        }
+        }l
     }
 }
 
