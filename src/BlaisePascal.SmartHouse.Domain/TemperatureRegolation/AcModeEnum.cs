@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-public enum AcMode
+namespace BlaisePascal.SmartHouse.Domain.TemperatureRegolation
 {
-    Cooling,
-    Heating,
-    Dehumidifier,
-    FanOnly
+    public enum AcMode
+    {
+        Cooling,
+        Heating,
+        Dehumidifier,
+        FanOnly
+    }
 }

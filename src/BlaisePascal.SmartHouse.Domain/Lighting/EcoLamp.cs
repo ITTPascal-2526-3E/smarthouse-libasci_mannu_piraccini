@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects;
 
 namespace BlaisePascal.SmartHouse.Domain.Lighting
 {
@@ -10,8 +11,8 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting
 
         private double currentBrightnessPercentage = 70;
 
-        public EcoLamp(string brand_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v)
-            : base(brand_v, "LED", power_v, max_brightness_v, is_dimmable_v, type_of_socket_v)
+        public EcoLamp(Brand  brand_v, double power_v, double max_brightness_v, bool is_dimmable_v, string type_of_socket_v) : base(brand_v, "EcoLamp", power_v, max_brightness_v, is_dimmable_v, type_of_socket_v)
+        //CHIEDERE AL PROF SE BISOGNA IMPLEMENTARE TUTTI I VALUE OBJECT COME FATTO CON BRAN SOPRA
         {
         }
 
