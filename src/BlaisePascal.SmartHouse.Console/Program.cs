@@ -1,162 +1,173 @@
-﻿using BlaisePascal.SmartHouse.Domain.Appliances;
+﻿
+using BlaisePascal.SmartHouse.Domain.Appliances;
 using BlaisePascal.SmartHouse.Domain.CCTV;
 using BlaisePascal.SmartHouse.Domain.Fixutures;
 using BlaisePascal.SmartHouse.Domain.Lighting;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain;
 
 
-class Program
+
+namespace BlaisePascal.SmartHouse
 {
-    static void Main(string[] args)
+    // L'Enum lo mettiamo qui così è visibile a tutto il namespace
+    public enum Brand { Samsung, Philips, Nespresso, Dyson, Generic }
+
+    class Program
     {
-        Lamp lamp = new Lamp("Philips", "LED", 60.0, 800.0, true, "E27");
-        Lamp lamp2 = new Lamp("Philips", "LED", 60.0, 800.0, true, "E27");
-        lamp.TurnOnOrOff();
-        lamp.TurnOnOrOff();
-        Console.WriteLine("Lamp is on: " + lamp.IsOn);
-        Console.WriteLine("Lamp is off: "  + lamp.IsOn);
-        Console.WriteLine("Lamp power: " + lamp.Power + " Watt");
-        Console.WriteLine("Lamp brand: " + lamp.brand);
-        Console.WriteLine("Lamp max brightness: " + lamp.max_brightness + " Lumen");
-        lamp.ChangeColor(colors_of_lamp.white);
-        Console.WriteLine("LampColor: " + lamp.actualColor);
-        lamp.ChangeColor(colors_of_lamp.red);
-        Console.WriteLine("LampColor after the change: " + lamp.actualColor);
-        lamp.DimmableControl(23);
-        Console.WriteLine("Lamp brightness after dimming to 23%:" + lamp.current_brightness_percentage);
-        Console.WriteLine("The id of lamp is:" + lamp.id_lamp);
-        Console.WriteLine("The id of lamp2 is:" + lamp2.id_lamp);
+        static void Main(string[] args)
+        {
+         
+            CoffeeMachine macchinetta = new CoffeeMachine();
+            CCTV telecamera = new CCTV("Ingresso");
+            Door portaPrincipale = new Door();
+            AirConditioner clima = new AirConditioner("Dyson", 1500);
+            Lamp luceLed = new Lamp(Brand.Philips, "LED", 8.5, 806, true, "E27");
 
-        Console.WriteLine();
+            bool chiudiApp = false;
 
-        EcoLamp ecoLamp = new EcoLamp("Osram", 15.0, 1000.0, true, "E27");
-        EcoLamp ecoLamp2 = new EcoLamp("Osram", 15.0, 1000.0, true, "E27");
-        ecoLamp.TurnOnOrOff();
-        Console.WriteLine("EcoLamp is on: " + ecoLamp.IsOn);
-        ecoLamp.TurnOnOrOff();
-        Console.WriteLine("EcoLamp is off: " + ecoLamp.IsOn);
-        Console.WriteLine("EcoLamp power: " + ecoLamp.Power + " Watt");
-        Console.WriteLine("EcoLamp brand: " + ecoLamp.brand);
-        ecoLamp.DimmableControl(50);
-        Console.WriteLine("EcoLamp time on: " + ecoLamp.AllTimeLampOn);
-        Console.WriteLine("EcoLamp consumed energy: " + ecoLamp.ConsumedEnergyInWH());
-        Console.WriteLine(ecoLamp.id_lamp);
-        Console.WriteLine(ecoLamp2.id_lamp);
+            while (!chiudiApp)
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("          SMART HOUSE - PANNELLO LIVE         ");
+                Console.WriteLine("==============================================");
+                Console.WriteLine("Seleziona COSA vuoi gestire (numero):");
+                Console.WriteLine("1. Macchina del Caffè");
+                Console.WriteLine("2. Telecamera di Sicurezza");
+                Console.WriteLine("3. Porta d'Ingresso");
+                Console.WriteLine("4. Climatizzatore");
+                Console.WriteLine("5. Illuminazione Soggiorno");
+                Console.WriteLine("0. ESCI");
+                Console.WriteLine("----------------------------------------------");
+                Console.Write("Scelta: ");
 
-        Console.WriteLine();
+                string sceltaPrincipale = Console.ReadLine();
 
-        // string brand = Console.ReadLine();
-        // Lamp l1 = new Lamp(new Brand("Generic"), "LED", 10, 100, true, "E14");
+                switch (sceltaPrincipale)
+                {
+                    case "1": GestisciCaffe(macchinetta); break;
+                    case "2": GestisciCCTV(telecamera); break;
+                    case "3": GestisciPorta(portaPrincipale); break;
+                    case "4": GestisciClima(clima); break;
+                    case "5": GestisciLuce(luceLed); break;
+                    case "0": chiudiApp = true; break;
+                    default:
+                        Console.WriteLine("Scelta non valida. Premi un tasto.");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
 
-        Lamp l1 = new Lamp("Generic", "LED", 10, 100, true, "E14");
-        EcoLamp l2 = new EcoLamp("EcoGen", 10, 100, true, "E14");
-        TwoLampDevice device = new TwoLampDevice(l1, l2);
-        TwoLampDevice device2 = new TwoLampDevice(l1, l2);
-        device.TurnOnOrOff();
-        Console.WriteLine("Device MainLamp is on: " + device.MainLamp.IsOn);
-        device.TurnOnOrOff();
-        Console.WriteLine("Device EcoLamp is on: " + device.EnergySaverLamp.IsOn);
-        Console.WriteLine("Device Eco Stats: " + device.GetEcoStats());
-        Console.WriteLine(device.DeviceId);
-        Console.WriteLine(device2.DeviceId);
+        static void GestisciCaffe(CoffeeMachine m)
+        {
+            bool tornaIndietro = false;
+            while (!tornaIndietro)
+            {
+                Console.Clear();
+                Console.WriteLine("--- GESTIONE MACCHINA CAFFÈ ---");
+                Console.WriteLine($"Stato: {(m.IsOn ? "ACCESA" : "SPENTA")} | Acqua: {m.WaterLevel}%");
+                Console.WriteLine("\n[A] Accendi/Spegni | [B] +Acqua | [C] Tazza | [D] Caffè | [R] Esci");
+                Console.Write("\nAzione: ");
+                string azione = Console.ReadLine().ToUpper();
+                try
+                {
+                    if (azione == "A") m.TurnOnOrOff();
+                    else if (azione == "B") m.AddWater(20);
+                    else if (azione == "C") m.PlaceCup();
+                    else if (azione == "D") { m.MakeCoffee(); Console.WriteLine("Fatto!"); Console.ReadKey(); }
+                    else if (azione == "R") tornaIndietro = true;
+                }
+                catch (Exception ex) { MostraErrore(ex.Message); }
+            }
+        }
 
-        Console.WriteLine();
+        static void GestisciCCTV(CCTV c)
+        {
+            bool torna = false;
+            while (!torna)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- CCTV: {c.Name} --- Status: {c.Status}");
+                Console.WriteLine("[A] On/Off | [B] Rec | [C] Stop | [R] Esci");
+                string azione = Console.ReadLine().ToUpper();
+                if (azione == "A") c.TurnOnOrOff();
+                else if (azione == "B") c.StartRecording();
+                else if (azione == "C") c.StopRecording();
+                else if (azione == "R") torna = true;
+            }
+        }
 
-        AirConditioner ac = new AirConditioner("Samsung", 2000.0);
-        AirConditioner ac2 = new AirConditioner("Samsung", 2000.0);
-        Console.WriteLine("AC is off: " + ac.IsOn);
-        ac.TurnOnOrOff();
-        Console.WriteLine("AC is on: " + ac.IsOn);
-        Console.WriteLine("AC brand: " + ac.Brand);
-        ac.SetMode(AcMode.Heating);
-        Console.WriteLine("AC Mode: " + ac.CurrentMode);
-        ac.SetMode(AcMode.Cooling);
-        Console.WriteLine("AC Mode: " + ac.CurrentMode);
-        ac.SetFanSpeed(4);
-        Console.WriteLine("AC Fan Speed: " + ac.FanSpeed);
-        ac.SetFanSpeed(2);
-        Console.WriteLine("AC Fan Speed: " + ac.FanSpeed);
-        ac.SetTemperature(22.5);
-        Console.WriteLine("AC Target Temp: " + ac.TargetTemperature);
-        ac.SetTemperature(20.0);
-        Console.WriteLine("AC Target Temp: " + ac.TargetTemperature);
-        Console.WriteLine(ac.Id);
-        Console.WriteLine(ac2.Id);
+        static void GestisciPorta(Door d)
+        {
+            bool torna = false;
+            while (!torna)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- PORTA --- Aperta: {d.isOpen} | Bloccata: {d.isLocked}");
+                Console.WriteLine("[A] Apri/Chiudi | [B] Lock/Unlock | [R] Esci");
+                string azione = Console.ReadLine().ToUpper();
+                try
+                {
+                    if (azione == "A") d.OpenOrClose();
+                    else if (azione == "B") d.LockOrUnlock();
+                    else if (azione == "R") torna = true;
+                }
+                catch (Exception ex) { MostraErrore(ex.Message); }
+            }
+        }
 
-        Console.WriteLine();
+        static void GestisciClima(AirConditioner ac)
+        {
+            bool torna = false;
+            while (!torna)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- CLIMA {ac.Brand} --- Temp: {ac.TargetTemperature}°");
+                Console.WriteLine("[A] On/Off | [B] Imposta Temp | [R] Esci");
+                string azione = Console.ReadLine().ToUpper();
+                try
+                {
+                    if (azione == "A") ac.TurnOnOrOff();
+                    else if (azione == "B") { Console.Write("Gradi: "); ac.SetTemperature(double.Parse(Console.ReadLine())); }
+                    else if (azione == "R") torna = true;
+                }
+                catch (Exception ex) { MostraErrore(ex.Message); }
+            }
+        }
 
-        Radiator radiator = new Radiator("DeLonghi", 1500.0, 10);
-        Radiator radiator2 = new Radiator("DeLonghi", 1500.0, 10);
-        Console.WriteLine("Radiator brand: " + radiator.Brand);
-        Console.WriteLine("Radiator elements: " + radiator.NumberOfElements);
-        Console.WriteLine("Radiator is off: " + radiator.IsOn);
-        radiator.TurnOnOrOff();
-        Console.WriteLine("Radiator is on: " + radiator.IsOn);
-        radiator.SetTemperature(25.0);
-        Console.WriteLine("Radiator Target Temp: " + radiator.TargetTemperature);
-        radiator.SetTemperature(35.0);
-        Console.WriteLine("Radiator Target Temp: " + radiator.TargetTemperature);
-        Console.WriteLine(radiator.Id);
-        Console.WriteLine(radiator2.Id);
+        static void GestisciLuce(Lamp l)
+        {
+            bool torna = false;
+            while (!torna)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- LUCI --- Stato: {(l.IsOn ? "ON" : "OFF")}");
+                Console.WriteLine("[A] On/Off | [B] Dimmer | [R] Esci");
+                string azione = Console.ReadLine().ToUpper();
+                try
+                {
+                    if (azione == "A") l.TurnOnOrOff();
+                    else if (azione == "B") { Console.Write("%: "); l.DimmableControl(double.Parse(Console.ReadLine())); }
+                    else if (azione == "R") torna = true;
+                }
+                catch (Exception ex) { MostraErrore(ex.Message); }
+            }
+        }
 
-        Console.WriteLine();
-
-        Door door = new Door();
-        Door door2 = new Door();
-        door.OpenOrClose();
-        Console.WriteLine("Door is close: " + door.IsOpen());
-        door.OpenOrClose();
-        Console.WriteLine("Door is close: " + door.IsOpen());
-        Console.WriteLine("Door is locked: " + door.IsLocked());
-        door.LockOrUnlock();
-        Console.WriteLine("Door is locked: " + door.IsLocked());
-
-        Console.WriteLine();
-
-        CCTV cam = new CCTV("Garden Cam");
-        CCTV cam2 = new CCTV("Garden Cam");
-        Console.WriteLine("CCTV Name: " + cam.Name);
-        cam.TurnOnOrOff();
-        Console.WriteLine("CCTV Status: " + cam.Status);
-        cam.TurnOnOrOff();
-        Console.WriteLine("CCTV Status: " + cam.Status);
-        cam.TurnOnOrOff();
-        cam.StartRecording();
-        Console.WriteLine("CCTV State: " + cam.CCTVState);
-        cam.StopRecording();
-        Console.WriteLine("CCTV State after stop: " + cam.CCTVState);
-        Console.WriteLine(cam.Id);
-        Console.WriteLine(cam2.Id);
-
-        Console.WriteLine();
-
-        CoffeeMachine cm = new CoffeeMachine();
-        CoffeeMachine cm2 = new CoffeeMachine();
-
-        Console.WriteLine("CoffeeMachine is ON: " + cm.IsOn);
-        cm.TurnOnOrOff();
-        Console.WriteLine("CoffeeMachine is ON after turning on: " + cm.IsOn);
-
-        cm.TurnOnOrOff();
-        Console.WriteLine("CoffeeMachine is OFF: " + cm.IsOn);
-
-        cm.AddWater(50);
-        Console.WriteLine("Water Level: " + cm.WaterLevel + "%");
-
-        cm.AddWater(30);
-        Console.WriteLine("Water Level After Adding 30%: " + cm.WaterLevel + "%");
-
-        cm.TurnOnOrOff();
-        cm.PlaceCup();
-        cm.MakeCoffee();
-
-        Console.WriteLine("Water Level after coffee: " + cm.WaterLevel + "%");
-        Console.WriteLine("Cup present after coffee: " + cm.IsCupPresent);
-        Console.WriteLine("Machine brewing: " + cm.IsBrewing);
-
-        Console.WriteLine("CoffeeMachine ID: " + cm.Id);
-        Console.WriteLine("CoffeeMachine2 ID: " + cm2.Id);
-
-        Console.ReadLine();l
+        static void MostraErrore(string msg)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"\n[ERRORE]: {msg}");
+            Console.ResetColor();
+            Console.ReadKey();
+        }
     }
 }
