@@ -14,8 +14,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV.Repository
             void Delete(CCTV cctv);
             CCTV GetById(int id);
             List<CCTV> GetAll();
-        }
     }
+}
 
-}
-}
+

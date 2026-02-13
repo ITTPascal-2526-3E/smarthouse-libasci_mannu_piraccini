@@ -16,3 +16,4 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegolation.ValueObject
             Level = level;
         }
     }
+}

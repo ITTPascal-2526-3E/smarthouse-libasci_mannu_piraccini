@@ -23,7 +23,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             var cam = new CCTV.CCTV("Test Cam");
 
-            cam.TurnOn();
+            cam.TurnOnOrOff();
 
             Assert.Equal(DeviceStatus.Online, cam.Status);
         }
@@ -33,9 +33,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             var cam = new CCTV.CCTV("Test Cam");
 
-            cam.TurnOn();
+            cam.TurnOnOrOff();
             cam.StartRecording();
-            cam.TurnOff();
+            cam.TurnOnOrOff();
 
             Assert.Equal(DeviceStatus.Offline, cam.Status);
             Assert.Equal(CCTVStatus.Idle, cam.CCTVState);
@@ -47,7 +47,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             var cam = new CCTV.CCTV("Test Cam");
 
             cam.SetError();
-            cam.TurnOn();
+            cam.TurnOnOrOff();
 
             Assert.Equal(DeviceStatus.Online, cam.Status);
             Assert.Equal(CCTVStatus.Idle, cam.CCTVState);
@@ -57,7 +57,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void StartRecording_ShouldSetRecording_WhenOnline()
         {
             var cam = new CCTV.CCTV("Test Cam");
-            cam.TurnOn();
+            cam.TurnOnOrOff();
 
             cam.StartRecording();
 
@@ -78,7 +78,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void StopRecording_ShouldSetStateIdle()
         {
             var cam = new CCTV.CCTV("Test Cam");
-            cam.TurnOn();
+            cam.TurnOnOrOff();
             cam.StartRecording();
 
             cam.StopRecording();
@@ -102,7 +102,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void SetError_ShouldSetStatusError_AndStateIdle()
         {
             var cam = new CCTV.CCTV("Test Cam");
-            cam.TurnOn();
+            cam.TurnOnOrOff();
             cam.StartRecording();
 
             cam.SetError();
