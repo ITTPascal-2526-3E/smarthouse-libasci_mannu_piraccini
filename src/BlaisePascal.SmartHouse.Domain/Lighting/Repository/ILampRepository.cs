@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Lighting.Repository
 {
-    internal interface ILampRepository
+    public interface ILampRepository
     {
         void Add(Lamp lamp);
         void Update(Lamp lamp);
