@@ -11,55 +11,83 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
     public sealed class CCTV : ISwitchable
     {
-       
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public DeviceStatus Status { get; private set; }
-        public CCTVStatus CCTVState { get; private set; }
+        public DeviceStatus Status { get; private set; } // Offline, Online, Error
+        public CCTVStatus CCTVState { get; private set; } // Idle, Recording, MotionDetected
         public int ImageResolution { get; private set; }
         public bool NightVision { get; set; }
         public string Lens { get; private set; }
         public bool WideDynamicRange { get; private set; }
-        public bool WeatherResistance { get; private set; }      
+        public bool WeatherResistance { get; private set; }
         public int Connectivity { get; private set; }
-        public string Storage { get; private set; }
+        public string Storage { get; private set; } 
         public bool DataCompression { get; private set; }
 
-        public CCTV(string name)
-        {
-            Id = Guid.NewGuid();        // genera ID unico
-            Name = name;                // nome della camera
+       
+        private int _storageCapacityMB;
+        private int _storageUsedMB;
 
-            Status = DeviceStatus.Offline;  // stato iniziale
-            CCTVState = CCTVStatus.Idle;    // stato iniziale
+        public CCTV(string name, int storageMB)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Status = DeviceStatus.Offline;
+            CCTVState = CCTVStatus.Idle;
+
+            ImageResolution = 1080;
+            _storageCapacityMB = storageMB;
+            _storageUsedMB = 0;
+            Storage = "Internal";
         }
 
         public void TurnOnOrOff()
         {
-            if (Status == DeviceStatus.Offline) 
+            if (Status == DeviceStatus.Offline)
             {
                 Status = DeviceStatus.Online;
-            }
-            else 
-            {
-                Status = DeviceStatus.Offline;
                 CCTVState = CCTVStatus.Idle;
             }
-           
-           
+            else
+            {
+                Status = DeviceStatus.Offline;
+                CCTVState = CCTVStatus.Idle; 
+            }
         }
 
         public void StartRecording()
         {
+           
             if (Status == DeviceStatus.Online)
             {
-                CCTVState = CCTVStatus.Recording;
+                
+                if (_storageUsedMB < _storageCapacityMB)
+                {
+                    CCTVState = CCTVStatus.Recording;
+                    
+                    _storageUsedMB += 100;
+                }
+                else
+                {
+                    SetError();
+                }
             }
         }
 
         public void StopRecording()
         {
-            CCTVState = CCTVStatus.Idle;
+            if (Status == DeviceStatus.Online)
+            {
+                CCTVState = CCTVStatus.Idle;
+            }
+        }
+
+        public void FormatMemory()
+        {
+            if (Status == DeviceStatus.Online && CCTVState != CCTVStatus.Recording)
+            {
+                _storageUsedMB = 0;
+            }
         }
 
         public void SetError()
@@ -69,4 +97,3 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
         }
     }
 }
-
