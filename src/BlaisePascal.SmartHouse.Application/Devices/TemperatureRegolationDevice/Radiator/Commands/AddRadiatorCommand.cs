@@ -7,7 +7,6 @@ using BlaisePascal.SmartHouse.Console;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Repository;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation.ValueObjects;
-using BlaisePascal.SmartHouse.Console;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.TemperatureRegolationDevice.Radiator.Commands
 {
@@ -20,10 +19,9 @@ namespace BlaisePascal.SmartHouse.Application.Devices.TemperatureRegolationDevic
             _radiatorRepository = radiatorRepository;
         }
 
-        public void Execute(BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Radiator. (Brand brand, string type, double power, double maxTemperature, bool hasThermostat)
+        public void Execute(Brand brand, double power, int elements)
         {
-
-            var radiator = new BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Radiator(brand, type, power, maxTemperature, hasThermostat);
+            var radiator = new BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Radiator(brand.ToString(), power, elements);
 
             _radiatorRepository.Add(radiator);
         }

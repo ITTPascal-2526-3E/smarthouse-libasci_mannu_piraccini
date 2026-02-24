@@ -17,7 +17,7 @@ using BlaisePascal.SmartHouse.Domain;
 namespace BlaisePascal.SmartHouse.Console
 {
     // L'Enum lo mettiamo qui così è visibile a tutto il namespace
-    public enum Brand { Samsung, Philips, Nespresso, Dyson, Generic }
+    public enum _Brand { Samsung, Philips, Nespresso, Dyson, Generic }
 
     public class Program
     {

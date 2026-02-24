@@ -19,7 +19,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Commands
             _radiatorRepository = radiatorRepository;
         }
 
-        public void Execute(Brand brand, double power, int elements)
+        public void Execute(_Brand brand, double power, int elements)
         {
             var radiator = new BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Radiator(brand.ToString(), power, elements);
 
