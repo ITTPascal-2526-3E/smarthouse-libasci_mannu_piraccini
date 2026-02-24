@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.TemperatureRegolation.ValueObject
+namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation.ValueObjects
 {
     public record ElementCount
     {

@@ -1,5 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
-using BlaisePascal.SmartHouse.Domain.TemperatureRegolation;
+using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
 using System;
 
 namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation
