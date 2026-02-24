@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.TemperatureRegolationDevice.Radiator.Commands
 {
-    internal class TurnOn
+    internal class SwitchRadiatorOnCommand
     {
     }
 }
