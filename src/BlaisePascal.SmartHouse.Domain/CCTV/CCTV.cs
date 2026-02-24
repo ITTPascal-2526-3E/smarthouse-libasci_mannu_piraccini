@@ -1,5 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
 using BlaisePascal.SmartHouse.Domain.CCTV;
+using System;
 
 public sealed class CCTV : ISwitchable
 {
