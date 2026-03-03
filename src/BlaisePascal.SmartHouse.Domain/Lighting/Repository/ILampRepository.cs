@@ -10,7 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting.Repository
     {
         void Add(Lamp lamp);
         void Update(Lamp lamp);
-        void Delete(Lamp lamp);
+        void Remove(Lamp lamp);
         Lamp GetById(Guid id);
         List<Lamp> GetAll();
     }
