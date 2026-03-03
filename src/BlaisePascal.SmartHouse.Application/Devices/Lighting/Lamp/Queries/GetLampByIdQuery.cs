@@ -17,7 +17,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Queries
         }
 
         // Specifico il percorso completo per la restituzione
-        public BlaisePascal.SmartHouse.Domain.Lighting.Lamp Execute(int lampId)
+        public BlaisePascal.SmartHouse.Domain.Lighting.Lamp Execute(Guid lampId)
         {
             var lamp = _lampRepository.GetById(lampId);
 
