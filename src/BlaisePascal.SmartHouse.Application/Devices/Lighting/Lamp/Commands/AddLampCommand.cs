@@ -1,30 +1,28 @@
-﻿using BlaisePascal.SmartHouse.Domain.Lighting;
+using BlaisePascal.SmartHouse.Domain.Lighting;
 using BlaisePascal.SmartHouse.Domain.Lighting.Repository;
-using BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Repository;
+using BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlaisePascal.SmartHouse.Console;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Commands
 {
-    public class AddRadiatorCommand
+    public class AddLampCommand
     {
-        public readonly IRadiatorRepository _radiatorRepository;
+        public readonly ILampRepository _lampRepository;
 
-        public AddRadiatorCommand(IRadiatorRepository radiatorRepository)
+        public AddLampCommand(ILampRepository lampRepository)
         {
-            _radiatorRepository = radiatorRepository;
+            _lampRepository = lampRepository;
         }
 
-        public void Execute(_Brand brand, double power, int elements)
+        public void Execute(string brand, string typeOfLamp, double power, double maxBrightness, bool isDimmable, string typeOfSocket)
         {
-            var radiator = new BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Radiator(brand.ToString(), power, elements);
+            var lamp = new BlaisePascal.SmartHouse.Domain.Lighting.Lamp(new Brand(brand), typeOfLamp, power, maxBrightness, isDimmable, typeOfSocket);
 
-            _radiatorRepository.Add(radiator);
+            _lampRepository.Add(lamp);
         }
     }
 }
-

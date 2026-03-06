@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void DimmableControl_NotDimmable_ThrowsInvalidOperationException()
         {
-            var lamp = new Lamp(new BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects.Brand("Philips"), "LED", 10, 500, true, "E27");
+            var lamp = new Lamp(new BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects.Brand("Philips"), "LED", 10, 500, false, "E27");
             Assert.Throws<InvalidOperationException>(() => lamp.DimmableControl(50.0));
         }
 
@@ -58,7 +58,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void ChangeColor_lampIsNotLED_ThrowsInvalidOperationException()
         {
-            var lamp = new Lamp(new BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects.Brand("Philips"), "LED", 10, 500, true, "E27");
+            var lamp = new Lamp(new BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects.Brand("Philips"), "Incandescent", 10, 500, true, "E27");
             Assert.Throws<InvalidOperationException>(() => lamp.ChangeColor(colors_of_lamp.blue));
         }
 

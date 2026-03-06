@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36212.18
@@ -19,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Domain.UnitTest", "Test\BlaisePascal.SmartHouse.Domain.UnitTest\BlaisePascal.SmartHouse.Domain.UnitTest.csproj", "{6B30688D-B70F-4BC7-8209-6C7E10DC7D13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Application", "src\BlaisePascal.SmartHouse.Application\BlaisePascal.SmartHouse.Application.csproj", "{B1A6FEC5-3BCA-4D08-8F01-AE0BA266548C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Infrastructure", "src\BlaisePascal.SmartHouse.Infrastructure\BlaisePascal.SmartHouse.Infrastructure.csproj", "{DACFD74C-9072-4BA0-B5B7-896723FFAE0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{B1A6FEC5-3BCA-4D08-8F01-AE0BA266548C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1A6FEC5-3BCA-4D08-8F01-AE0BA266548C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1A6FEC5-3BCA-4D08-8F01-AE0BA266548C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DACFD74C-9072-4BA0-B5B7-896723FFAE0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DACFD74C-9072-4BA0-B5B7-896723FFAE0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DACFD74C-9072-4BA0-B5B7-896723FFAE0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DACFD74C-9072-4BA0-B5B7-896723FFAE0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{3343D069-711A-418D-9995-781DDB74981D} = {15CE8A58-859C-4555-8CFD-C0188E57F148}
 		{6B30688D-B70F-4BC7-8209-6C7E10DC7D13} = {72484C1C-548F-4F03-A921-9C1837AA34B6}
 		{B1A6FEC5-3BCA-4D08-8F01-AE0BA266548C} = {15CE8A58-859C-4555-8CFD-C0188E57F148}
+		{DACFD74C-9072-4BA0-B5B7-896723FFAE0C} = {15CE8A58-859C-4555-8CFD-C0188E57F148}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {056AEBB7-9E70-41DD-9062-057099D95E3D}

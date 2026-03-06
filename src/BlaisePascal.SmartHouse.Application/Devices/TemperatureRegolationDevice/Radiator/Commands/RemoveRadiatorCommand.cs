@@ -1,6 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Console;
-using BlaisePascal.SmartHouse.Domain.Lighting.Repository;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
+using BlaisePascal.SmartHouse.Domain.Lighting.Repository;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Repository;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation.ValueObjects;
 using System.Collections.Generic;

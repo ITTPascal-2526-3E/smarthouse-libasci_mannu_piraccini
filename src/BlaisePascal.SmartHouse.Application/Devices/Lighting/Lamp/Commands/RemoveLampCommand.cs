@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Commands
                 throw new InvalidOperationException($"Lamp with ID {lampId} not found.");
             }
 
-            _lampRepository.Remove(lamp);
+            _lampRepository.Remove(lampId);
         }
     }
 }

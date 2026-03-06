@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlaisePascal.SmartHouse.Console;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Repository;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation.ValueObjects;

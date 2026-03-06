@@ -1,4 +1,3 @@
-﻿using BlaisePascal.SmartHouse.Console;
 using BlaisePascal.SmartHouse.Domain.Lighting;
 namespace BlaisePascal.SmartHouse.Domain.Lighting
 {

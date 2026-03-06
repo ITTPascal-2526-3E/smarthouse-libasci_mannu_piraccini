@@ -1,4 +1,4 @@
-﻿
+
 using BlaisePascal.SmartHouse.Domain.Appliances;
 using BlaisePascal.SmartHouse.Domain.CCTV;
 using BlaisePascal.SmartHouse.Domain.Fixutures;
@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlaisePascal.SmartHouse.Domain.Abstraction;
-using BlaisePascal.SmartHouse.Domain;
 
 
 
@@ -110,7 +109,7 @@ namespace BlaisePascal.SmartHouse.Console
             bool torna = false;
             while (!torna)
             {
-                System. Console.Clear();
+                System.Console.Clear();
                 System.Console.WriteLine($"--- PORTA --- Aperta: {d.isOpen} | Bloccata: {d.isLocked}");
                 System.Console.WriteLine("[A] Apri/Chiudi | [B] Lock/Unlock | [R] Esci");
                 string azione = System.Console.ReadLine().ToUpper();

@@ -1,5 +1,4 @@
-﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
-using BlaisePascal.SmartHouse.Domain.CCTV;
+using BlaisePascal.SmartHouse.Domain.Abstraction;
 using System;
 namespace BlaisePascal.SmartHouse.Domain.CCTV;
         public sealed class CCTV : ISwitchable
@@ -29,9 +28,10 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV;
 
             public void TurnOnOrOff()
             {
-                if (Status == DeviceStatus.Offline)
+                if (Status == DeviceStatus.Offline || Status == DeviceStatus.Error)
                 {
                     Status = DeviceStatus.Online;
+                    CCTVState = CCTVStatus.Idle;
                 }
                 else
                 {

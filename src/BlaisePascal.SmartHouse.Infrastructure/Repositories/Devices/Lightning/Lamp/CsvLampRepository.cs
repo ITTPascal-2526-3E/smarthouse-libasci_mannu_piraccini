@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using BlaisePascal.SmartHouse.Domain.Lighting.Repository;
+using DomainLamp = BlaisePascal.SmartHouse.Domain.Lighting.Lamp;
 
 namespace BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.Lamp
 {
@@ -15,7 +14,7 @@ namespace BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.
 
         public CsvLampRepository()
         {
-            var solutionFolder = LocalPathHelper.GetSolutionInRoot();
+            var solutionFolder = LocalPathHelper.GetSolutionRoot();
 
             var dataFolder = Path.Combine(solutionFolder, "data");
             Directory.CreateDirectory(dataFolder);
@@ -24,31 +23,31 @@ namespace BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.
 
             if (!File.Exists(_filePath))
             {
-                Save(new List<Lamp>());
+                Save(new List<DomainLamp>());
             }
         }
 
-        public List<Lamp> GetAll()
+        public List<DomainLamp> GetAll()
         {
             return Load();
         }
 
-        public Lamp GetById(Guid id)
+        public DomainLamp GetById(Guid id)
         {
-            return Load().First(l => l.Id == id);
+            return Load().First(l => l.id_lamp == id);
         }
 
-        public void Add(Lamp lamp)
+        public void Add(DomainLamp lamp)
         {
             var lamps = Load();
             lamps.Add(lamp);
             Save(lamps);
         }
-        public void Update(Lamp lamp)
+        public void Update(DomainLamp lamp)
         {
             var lamps = Load();
 
-            var index = lamps.FindIndex(l => l.Id == lamp.Id);
+            var index = lamps.FindIndex(l => l.id_lamp == lamp.id_lamp);
             if (index == -1)
                 throw new Exception("Lamp not found");
 
@@ -59,34 +58,34 @@ namespace BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.
         public void Remove(Guid id)
         {
             var lamps = Load();
-            var lamp = lamps.First(l => l.Id == id);
+            var lamp = lamps.First(l => l.id_lamp == id);
             lamps.Remove(lamp);
             Save(lamps);
         }
 
-
-
-        private void Save(List<Lamp> lamps)
+        private List<DomainLamp> Load()
         {
-            var dtos = lamps;
+            // TODO: implement CSV loading logic
+            return new List<DomainLamp>();
+        }
 
+        private void Save(List<DomainLamp> lamps)
+        {
             var lines = new List<string>
             {
-                "Id,Name,ImageUrl,Brand,Type,Wattage,Lumens,IsDimmable,SocketType"
+                "Id,Brand,Type,Power,MaxBrightness,IsDimmable,SocketType"
             };
 
-            foreach (var dto in dtos)
+            foreach (var lamp in lamps)
             {
                 lines.Add(string.Join(",",
-                    dto.Id,
-                    dto.Name.Value,
-                    dto.ImageUrl,
-                    dto.Brand.Name,
-                    dto.Type,
-                    dto.Wattage,
-                    dto.Lumens,
-                    dto.IsDimmable,
-                    dto.SocketType
+                    lamp.id_lamp,
+                    lamp.brand.Name,
+                    lamp.TypeOfLamp,
+                    lamp.Power,
+                    lamp.max_brightness,
+                    lamp.IsDimmable,
+                    lamp.TypeOfSocket
                 ));
             }
 

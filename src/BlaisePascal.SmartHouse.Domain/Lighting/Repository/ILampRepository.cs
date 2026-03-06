@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +10,9 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting.Repository
     {
         void Add(Lamp lamp);
         void Update(Lamp lamp);
-        void Remove(Lamp lamp);
+        void Remove(Guid id);
         Lamp GetById(Guid id);
         List<Lamp> GetAll();
+        
     }
 }
