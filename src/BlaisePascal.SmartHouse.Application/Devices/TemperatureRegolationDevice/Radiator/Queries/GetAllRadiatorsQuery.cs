@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.TemperatureRegolationDevice.Radiator.Queries
 {
-    internal class GetAllRadiatorsQuery
+    public class GetAllRadiatorsQuery
     {
+        private readonly IRadiatorRepository _radiatorRepository;
+
+        public GetAllRadiatorsQuery(IRadiatorRepository radiatorRepository)
+        {
+            _radiatorRepository = radiatorRepository;
+        }
+
+        public List<BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Radiator> Execute()
+        {
+            return _radiatorRepository.GetAll();
+        }
     }
 }

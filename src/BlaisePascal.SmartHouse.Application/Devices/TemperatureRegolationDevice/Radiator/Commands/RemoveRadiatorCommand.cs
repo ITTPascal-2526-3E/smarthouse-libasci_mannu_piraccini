@@ -10,9 +10,9 @@ namespace BlaisePascal.SmartHouse.Application.Devices.TemperatureRegolationDevic
 {
     public class RemoveRadiatorCommand
     {
-        private readonly IRadiatorRepository _radiatorRepository;
+        private readonly Domain.TemperatureRegulation.Repository.IRadiatorRepository _radiatorRepository;
 
-        public RemoveRadiatorCommand(IRadiatorRepository radiatorRepository)
+        public RemoveRadiatorCommand(Domain.TemperatureRegulation.Repository.IRadiatorRepository radiatorRepository)
         {
             _radiatorRepository = radiatorRepository;
         }
