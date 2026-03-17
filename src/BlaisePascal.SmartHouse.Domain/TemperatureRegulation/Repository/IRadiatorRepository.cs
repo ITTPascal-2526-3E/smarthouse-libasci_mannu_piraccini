@@ -12,7 +12,7 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureRegulation.Repository
             void Add(Radiator radiator);
             void Update(Radiator radiator);
             void Delete(Radiator radiator);
-            Radiator GetById(int id);
+            Radiator GetById(Guid id);
             List<Radiator> GetAll();
         }
 }

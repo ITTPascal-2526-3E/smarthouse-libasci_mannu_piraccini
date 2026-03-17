@@ -1,53 +1,60 @@
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+// Domain 
 using BlaisePascal.SmartHouse.Domain.Appliances;
 using BlaisePascal.SmartHouse.Domain.CCTV;
 using BlaisePascal.SmartHouse.Domain.Fixutures;
 using BlaisePascal.SmartHouse.Domain.Lighting;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects;
+using BlaisePascal.SmartHouse.Domain.Lighting.Repository;
+// Infrastructure
+using BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.Lamp.InMemory;
+// Application
+using BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Commands;
+using BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Queries;
 
-
-
-namespace BlaisePascal.SmartHouse.Console
+namespace BlaisePascal.SmartHouse.ConsoleApp
 {
-    // L'Enum lo mettiamo qui così è visibile a tutto il namespace
     public enum _Brand { Samsung, Philips, Nespresso, Dyson, Generic }
 
     public class Program
     {
+        // --- REPOSITORY ---
+        static ILampRepository lampRepo = new InMemoryLampRepository();
+
+        // --- DISPOSITIVI STANDARD ---
+        static CoffeeMachine macchinetta;
+        static CCTV telecamera;
+        static Door portaPrincipale;
+        static AirConditioner clima;
+
         static void Main(string[] args)
         {
-            CoffeeMachine macchinetta = new CoffeeMachine();
-            CCTV telecamera = new CCTV("Ingresso");
-            Door portaPrincipale = new Door();
-            AirConditioner clima = new AirConditioner("Dyson", 1500);
-            Lamp luceLed = new Lamp(new BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects.Brand("Philips"), "LED", 8.5, 806, true, "E27");
+            InizializzaCasa();
 
             bool chiudiApp = false;
 
             while (!chiudiApp)
             {
-                System.Console.Clear();
-                System.Console.WriteLine("==============================================");
-                System.Console.WriteLine("          SMART HOUSE - PANNELLO LIVE         ");
-                System.Console.WriteLine("==============================================");
-                System.Console.WriteLine("Seleziona COSA vuoi gestire (numero):");
-                System.Console.WriteLine("1. Macchina del Caffè");
-                System.Console.WriteLine("2. Telecamera di Sicurezza");
-                System.Console.WriteLine("3. Porta d'Ingresso");
-                System.Console.WriteLine("4. Climatizzatore");
-                System.Console.WriteLine("5. Illuminazione Soggiorno");
-                System.Console.WriteLine("0. ESCI");
-                System.Console.WriteLine("----------------------------------------------");
-                System.Console.WriteLine("Scelta: ");
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════╗");
+                Console.WriteLine("║        SMART HOUSE - PANNELLO LIVE     ║");
+                Console.WriteLine("╚════════════════════════════════════════╝");
+                Console.ResetColor();
+                Console.WriteLine("Seleziona COSA vuoi gestire (numero):");
+                Console.WriteLine("[1] Macchina del Caffè");
+                Console.WriteLine("[2] Telecamera di Sicurezza");
+                Console.WriteLine("[3] Porta d'Ingresso");
+                Console.WriteLine("[4] Climatizzatore");
+                Console.WriteLine("[5] Illuminazione (CQRS: Commands & Queries)");
+                Console.WriteLine("[0] ESCI");
+                Console.WriteLine("----------------------------------------------");
+                Console.Write("Scelta: ");
 
-                // Proteggo contro il valore null di Console.ReadLine()
-                string sceltaPrincipale = System.Console.ReadLine() ?? string.Empty;
+                string sceltaPrincipale = Console.ReadLine() ?? string.Empty;
 
                 switch (sceltaPrincipale)
                 {
@@ -55,33 +62,167 @@ namespace BlaisePascal.SmartHouse.Console
                     case "2": GestisciCCTV(telecamera); break;
                     case "3": GestisciPorta(portaPrincipale); break;
                     case "4": GestisciClima(clima); break;
-                    case "5": GestisciLuce(luceLed); break;
+                    case "5": MenuIlluminazione(); break;
                     case "0": chiudiApp = true; break;
                     default:
-                        System.Console.WriteLine("Scelta non valida. Premi un tasto.");
-                        System.Console.ReadKey();
+                        Console.WriteLine("Scelta non valida. Premi un tasto.");
+                        Console.ReadKey();
                         break;
                 }
             }
         }
 
+        static void InizializzaCasa()
+        {
+            macchinetta = new CoffeeMachine();
+            telecamera = new CCTV("Ingresso");
+            portaPrincipale = new Door();
+            clima = new AirConditioner("Dyson", 1500);
+        }
+
+        // SOTTOMENU CQRS PER ILLUMINAZIONE
+        static void MenuIlluminazione()
+        {
+            bool tornaIndietro = false;
+            while (!tornaIndietro)
+            {
+                Console.Clear();
+                Console.WriteLine("--- GESTIONE ILLUMINAZIONE (CQRS) ---");
+
+                var getAllQuery = new GetAllLampsQuery(lampRepo);
+                var lamps = getAllQuery.Execute();
+
+                Console.WriteLine($"\nTotale lampade trovate: {lamps.Count}");
+                foreach (var l in lamps)
+                {
+                    Console.WriteLine($"- ID: {l.id_lamp} | Brand: {l.brand} | Stato: {(l.IsOn ? "ON" : "OFF")} | Lum: {l.current_brightness_percentage}%");
+                }
+
+                Console.WriteLine("\n[A] Aggiungi Nuova Lampada");
+                Console.WriteLine("[B] Rimuovi Lampada");
+                Console.WriteLine("[C] Gestisci Lampada Specifica");
+                Console.WriteLine("[R] Torna al Menu Principale");
+                Console.Write("\nAzione: ");
+
+                string azione = Console.ReadLine()?.ToUpper() ?? "";
+
+                try
+                {
+                    if (azione == "A")
+                    {
+                        Console.WriteLine("\nAggiunta lampada 'Osram' in corso...");
+
+                        var addCommand = new AddLampCommand(lampRepo);
+                        addCommand.Execute("Osram", "LED", 10.0, 1050, true, "E27");
+
+                        Console.WriteLine("Fatto! Premi un tasto.");
+                        Console.ReadKey();
+                    }
+                    else if (azione == "B")
+                    {
+                        Console.Write("Inserisci l'ID esatto della lampada da rimuovere: ");
+                        if (Guid.TryParse(Console.ReadLine(), out Guid idToRemove))
+                        {
+                            var removeCommand = new RemoveLampCommand(lampRepo);
+                            removeCommand.Execute(idToRemove);
+
+                            Console.WriteLine("Comando eseguito. Premi un tasto.");
+                        }
+                        else
+                        {
+                            MostraErrore("Formato ID non valido.");
+                        }
+                        Console.ReadKey();
+                    }
+                    else if (azione == "C")
+                    {
+                        Console.Write("Inserisci l'ID della lampada da gestire: ");
+                        if (Guid.TryParse(Console.ReadLine(), out Guid idToManage))
+                        {
+                            GestisciLuce(idToManage);
+                        }
+                    }
+                    else if (azione == "R")
+                    {
+                        tornaIndietro = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MostraErrore(ex.Message);
+                }
+            }
+        }
+
+        // GESTIONE SINGOLA LAMPADA (Tramite CQRS)
+        static void GestisciLuce(Guid lampId)
+        {
+            bool torna = false;
+            while (!torna)
+            {
+                try
+                {
+                    // ESECUZIONE QUERY: Recupero stato aggiornato 
+                    var getByIdQuery = new GetLampByIdQuery(lampRepo);
+                    var lamp = getByIdQuery.Execute(lampId);
+
+                    Console.Clear();
+                    Console.WriteLine($"--- GESTIONE LAMPADA ---");
+                    Console.WriteLine($"ID: {lamp.id_lamp}");
+                    Console.WriteLine($"Brand: {lamp.brand} | Tipo: {lamp.TypeOfLamp}");
+                    Console.WriteLine($"Stato: {(lamp.IsOn ? "ACCESA" : "SPENTA")} | Luminosità: {lamp.current_brightness_percentage}%");
+                    Console.WriteLine("\n[A] Accendi | [B] Spegni | [C] Cambia Intensità (Dimmer) | [R] Esci");
+                    Console.Write("Azione: ");
+
+                    string azione = Console.ReadLine()?.ToUpper() ?? "";
+
+                    // ESECUZIONE COMMANDS in base alla scelta 
+                    if (azione == "A")
+                    {
+                        new SwitchLampOnCommand(lampRepo).Execute(lampId);
+                    }
+                    else if (azione == "B")
+                    {
+                        new SwitchLampOffCommand(lampRepo).Execute(lampId);
+                    }
+                    else if (azione == "C")
+                    {
+                        Console.Write("Nuova intensità % (1-100): ");
+                        if (double.TryParse(Console.ReadLine(), out double livello))
+                        {
+                            new ChangeIntensityCommand(lampRepo).Execute(lampId, livello);
+                        }
+                    }
+                    else if (azione == "R")
+                    {
+                        torna = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MostraErrore(ex.Message);
+                }
+            }
+        }
+
+       
         static void GestisciCaffe(CoffeeMachine m)
         {
             bool tornaIndietro = false;
             while (!tornaIndietro)
             {
-                System.Console.Clear();
-                System.Console.WriteLine("--- GESTIONE MACCHINA CAFFÈ ---");
-                System.Console.WriteLine($"Stato: {(m.IsOn ? "ACCESA" : "SPENTA")} | Acqua: {m.WaterLevel}%");
-                System.Console.WriteLine("\n[A] Accendi/Spegni | [B] +Acqua | [C] Tazza | [D] Caffè | [R] Esci");
-                System.Console.Write("\nAzione: ");
-                string azione = System.Console.ReadLine().ToUpper();
+                Console.Clear();
+                Console.WriteLine("--- GESTIONE MACCHINA CAFFÈ ---");
+                Console.WriteLine($"Stato: {(m.IsOn ? "ACCESA" : "SPENTA")} | Acqua: {m.WaterLevel}%");
+                Console.WriteLine("\n[A] Accendi/Spegni | [B] +Acqua | [C] Tazza | [D] Caffè | [R] Esci");
+                Console.Write("\nAzione: ");
+                string azione = Console.ReadLine()?.ToUpper() ?? "";
                 try
                 {
                     if (azione == "A") m.TurnOnOrOff();
                     else if (azione == "B") m.AddWater(20);
                     else if (azione == "C") m.PlaceCup();
-                    else if (azione == "D") { m.MakeCoffee(); System.Console.WriteLine("Fatto!"); System.Console.ReadKey(); }
+                    else if (azione == "D") { m.MakeCoffee(); Console.WriteLine("Fatto!"); Console.ReadKey(); }
                     else if (azione == "R") tornaIndietro = true;
                 }
                 catch (Exception ex) { MostraErrore(ex.Message); }
@@ -93,10 +234,10 @@ namespace BlaisePascal.SmartHouse.Console
             bool torna = false;
             while (!torna)
             {
-                System.Console.Clear();
-                System.Console.WriteLine($"--- CCTV: {c.Name} --- Status: {c.Status}");
-                System.Console.WriteLine("[A] On/Off | [B] Rec | [C] Stop | [R] Esci");
-                string azione = System.Console.ReadLine().ToUpper();
+                Console.Clear();
+                Console.WriteLine($"--- CCTV: {c.Name} --- Status: {c.Status}");
+                Console.WriteLine("[A] On/Off | [B] Rec | [C] Stop | [R] Esci");
+                string azione = Console.ReadLine()?.ToUpper() ?? "";
                 if (azione == "A") c.TurnOnOrOff();
                 else if (azione == "B") c.StartRecording();
                 else if (azione == "C") c.StopRecording();
@@ -109,10 +250,10 @@ namespace BlaisePascal.SmartHouse.Console
             bool torna = false;
             while (!torna)
             {
-                System.Console.Clear();
-                System.Console.WriteLine($"--- PORTA --- Aperta: {d.isOpen} | Bloccata: {d.isLocked}");
-                System.Console.WriteLine("[A] Apri/Chiudi | [B] Lock/Unlock | [R] Esci");
-                string azione = System.Console.ReadLine().ToUpper();
+                Console.Clear();
+                Console.WriteLine($"--- PORTA --- Aperta: {d.isOpen} | Bloccata: {d.isLocked}");
+                Console.WriteLine("[A] Apri/Chiudi | [B] Lock/Unlock | [R] Esci");
+                string azione = Console.ReadLine()?.ToUpper() ?? "";
                 try
                 {
                     if (azione == "A") d.OpenOrClose();
@@ -128,33 +269,14 @@ namespace BlaisePascal.SmartHouse.Console
             bool torna = false;
             while (!torna)
             {
-                System.Console.Clear();
-                System.Console.WriteLine($"--- CLIMA {ac.Brand} --- Temp: {ac.TargetTemperature}°");
-                System.Console.WriteLine("[A] On/Off | [B] Imposta Temp | [R] Esci");
-                string azione = System.Console.ReadLine().ToUpper();
+                Console.Clear();
+                Console.WriteLine($"--- CLIMA {ac.Brand} --- Temp: {ac.TargetTemperature}°");
+                Console.WriteLine("[A] On/Off | [B] Imposta Temp | [R] Esci");
+                string azione = Console.ReadLine()?.ToUpper() ?? "";
                 try
                 {
                     if (azione == "A") ac.TurnOnOrOff();
-                    else if (azione == "B") { System.Console.Write("Gradi: "); ac.SetTemperature(double.Parse(System.Console.ReadLine())); }
-                    else if (azione == "R") torna = true;
-                }
-                catch (Exception ex) { MostraErrore(ex.Message); }
-            }
-        }
-
-        static void GestisciLuce(Lamp l)
-        {
-            bool torna = false;
-            while (!torna)
-            {
-                System.Console.Clear();
-                System.Console.WriteLine($"--- LUCI --- Stato: {(l.IsOn ? "ON" : "OFF")}");
-                System.Console.WriteLine("[A] On/Off | [B] Dimmer | [R] Esci");
-                string azione = System.Console.ReadLine().ToUpper();
-                try
-                {
-                    if (azione == "A") l.TurnOnOrOff();
-                    else if (azione == "B") { System.Console.Write("%: "); l.DimmableControl(double.Parse(System.Console.ReadLine())); }
+                    else if (azione == "B") { Console.Write("Gradi: "); ac.SetTemperature(double.Parse(Console.ReadLine())); }
                     else if (azione == "R") torna = true;
                 }
                 catch (Exception ex) { MostraErrore(ex.Message); }
@@ -163,10 +285,10 @@ namespace BlaisePascal.SmartHouse.Console
 
         static void MostraErrore(string msg)
         {
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine($"\n[ERRORE]: {msg}");
-            System.Console.ResetColor();
-            System.Console.ReadKey();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"\n[ERRORE]: {msg}");
+            Console.ResetColor();
+            Console.ReadKey();
         }
     }
 }

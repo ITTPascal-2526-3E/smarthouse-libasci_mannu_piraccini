@@ -17,7 +17,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.TemperatureRegolationDevic
             _radiatorRepository = radiatorRepository;
         }
 
-        public void Execute(int radiatorId)
+        public void Execute(Guid radiatorId)
         {
             var radiator = _radiatorRepository.GetById(radiatorId);
             if (radiator == null)
