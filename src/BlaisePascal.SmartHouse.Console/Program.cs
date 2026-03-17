@@ -1,32 +1,32 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-// Domain 
+// --- Domain ---
 using BlaisePascal.SmartHouse.Domain.Appliances;
 using BlaisePascal.SmartHouse.Domain.CCTV;
+using BlaisePascal.SmartHouse.Domain.CCTV.Repository;
 using BlaisePascal.SmartHouse.Domain.Fixutures;
 using BlaisePascal.SmartHouse.Domain.Lighting;
 using BlaisePascal.SmartHouse.Domain.TemperatureRegulation;
-using BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects;
 using BlaisePascal.SmartHouse.Domain.Lighting.Repository;
-// Infrastructure
+using BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects;
+// --- Infrastructure ---
 using BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.Lamp.InMemory;
-// Application
+using BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.CCTV.InMemory;
+// --- Application ---
 using BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Commands;
 using BlaisePascal.SmartHouse.Application.Devices.Lighting.Lamp.Queries;
+using BlaisePascal.SmartHouse.Application.Devices.CCTV.Commands;
+using BlaisePascal.SmartHouse.Application.Devices.CCTV.Queries;
+
 
 namespace BlaisePascal.SmartHouse.ConsoleApp
 {
-    public enum _Brand { Samsung, Philips, Nespresso, Dyson, Generic }
-
     public class Program
     {
-        // --- REPOSITORY ---
         static ILampRepository lampRepo = new InMemoryLampRepository();
+        static ICCTVRepository cctvRepo = new InMemoryCCTVRepository();
 
-        // --- DISPOSITIVI STANDARD ---
         static CoffeeMachine macchinetta;
-        static CCTV telecamera;
         static Door portaPrincipale;
         static AirConditioner clima;
 
@@ -46,7 +46,7 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                 Console.ResetColor();
                 Console.WriteLine("Seleziona COSA vuoi gestire (numero):");
                 Console.WriteLine("[1] Macchina del Caffè");
-                Console.WriteLine("[2] Telecamera di Sicurezza");
+                Console.WriteLine("[2] Telecamere di Sicurezza (CQRS: Commands & Queries)");
                 Console.WriteLine("[3] Porta d'Ingresso");
                 Console.WriteLine("[4] Climatizzatore");
                 Console.WriteLine("[5] Illuminazione (CQRS: Commands & Queries)");
@@ -59,7 +59,7 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                 switch (sceltaPrincipale)
                 {
                     case "1": GestisciCaffe(macchinetta); break;
-                    case "2": GestisciCCTV(telecamera); break;
+                    case "2": MenuCCTV(); break;
                     case "3": GestisciPorta(portaPrincipale); break;
                     case "4": GestisciClima(clima); break;
                     case "5": MenuIlluminazione(); break;
@@ -75,12 +75,12 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
         static void InizializzaCasa()
         {
             macchinetta = new CoffeeMachine();
-            telecamera = new CCTV("Ingresso");
             portaPrincipale = new Door();
             clima = new AirConditioner("Dyson", 1500);
         }
 
         // SOTTOMENU CQRS PER ILLUMINAZIONE
+
         static void MenuIlluminazione()
         {
             bool tornaIndietro = false;
@@ -95,7 +95,7 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                 Console.WriteLine($"\nTotale lampade trovate: {lamps.Count}");
                 foreach (var l in lamps)
                 {
-                    Console.WriteLine($"- ID: {l.id_lamp} | Brand: {l.brand?.Name ?? "Brand non riconosciuto"} | Stato: {(l.IsOn ? "ON" : "OFF")} | Lum: {l.current_brightness_percentage}%");
+                    Console.WriteLine($"- ID: {l.id_lamp} | Brand: {l.brand?.Name ?? "Generico"} | Stato: {(l.IsOn ? "ON" : "OFF")} | Lum: {l.current_brightness_percentage}%");
                 }
 
                 Console.WriteLine("\n[A] Aggiungi Nuova Lampada");
@@ -110,19 +110,12 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                 {
                     if (azione == "A")
                     {
-                        // MODIFICA: Chiediamo all'utente il nome del brand
                         Console.Write("\nInserisci il Brand della nuova lampada: ");
-                        string nuovoBrand = Console.ReadLine();
+                        string nuovoBrand = Console.ReadLine() ?? "Generico";
 
-                        if (string.IsNullOrWhiteSpace(nuovoBrand))
-                        {
-                            nuovoBrand = "Generico";
-                        }
-
-                        Console.WriteLine($"\nAggiunta lampada '{nuovoBrand}' in corso...");
+                        if (string.IsNullOrWhiteSpace(nuovoBrand)) nuovoBrand = "Generico";
 
                         var addCommand = new AddLampCommand(lampRepo);
-                        // Passiamo la variabile invece della scritta "Osram"
                         addCommand.Execute(nuovoBrand, "LED", 10.0, 1050, true, "E27");
 
                         Console.WriteLine("Fatto! Premi un tasto.");
@@ -135,13 +128,9 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                         {
                             var removeCommand = new RemoveLampCommand(lampRepo);
                             removeCommand.Execute(idToRemove);
-
                             Console.WriteLine("Comando eseguito. Premi un tasto.");
                         }
-                        else
-                        {
-                            MostraErrore("Formato ID non valido.");
-                        }
+                        else MostraErrore("Formato ID non valido.");
                         Console.ReadKey();
                     }
                     else if (azione == "C")
@@ -151,20 +140,14 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                         {
                             GestisciLuce(idToManage);
                         }
+                        else MostraErrore("Formato ID non valido.");
                     }
-                    else if (azione == "R")
-                    {
-                        tornaIndietro = true;
-                    }
+                    else if (azione == "R") tornaIndietro = true;
                 }
-                catch (Exception ex)
-                {
-                    MostraErrore(ex.Message);
-                }
+                catch (Exception ex) { MostraErrore(ex.Message); }
             }
         }
 
-        // GESTIONE SINGOLA LAMPADA (Tramite CQRS)
         static void GestisciLuce(Guid lampId)
         {
             bool torna = false;
@@ -172,30 +155,21 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
             {
                 try
                 {
-                    // ESECUZIONE QUERY: Recupero stato aggiornato 
                     var getByIdQuery = new GetLampByIdQuery(lampRepo);
                     var lamp = getByIdQuery.Execute(lampId);
 
                     Console.Clear();
                     Console.WriteLine($"--- GESTIONE LAMPADA ---");
                     Console.WriteLine($"ID: {lamp.id_lamp}");
-                    // MODIFICA: Inserito il controllo anti-null anche qui
-                    Console.WriteLine($"Brand: {lamp.brand?.Name ?? "Brand non riconosciuto"} | Tipo: {lamp.TypeOfLamp}");
+                    Console.WriteLine($"Brand: {lamp.brand?.Name ?? "Generico"} | Tipo: {lamp.TypeOfLamp}");
                     Console.WriteLine($"Stato: {(lamp.IsOn ? "ACCESA" : "SPENTA")} | Luminosità: {lamp.current_brightness_percentage}%");
                     Console.WriteLine("\n[A] Accendi | [B] Spegni | [C] Cambia Intensità (Dimmer) | [R] Esci");
                     Console.Write("Azione: ");
 
                     string azione = Console.ReadLine()?.ToUpper() ?? "";
 
-                    // ESECUZIONE COMMANDS in base alla scelta 
-                    if (azione == "A")
-                    {
-                        new SwitchLampOnCommand(lampRepo).Execute(lampId);
-                    }
-                    else if (azione == "B")
-                    {
-                        new SwitchLampOffCommand(lampRepo).Execute(lampId);
-                    }
+                    if (azione == "A") new SwitchLampOnCommand(lampRepo).Execute(lampId);
+                    else if (azione == "B") new SwitchLampOffCommand(lampRepo).Execute(lampId);
                     else if (azione == "C")
                     {
                         Console.Write("Nuova intensità % (1-100): ");
@@ -204,18 +178,116 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                             new ChangeIntensityCommand(lampRepo).Execute(lampId, livello);
                         }
                     }
-                    else if (azione == "R")
-                    {
-                        torna = true;
-                    }
+                    else if (azione == "R") torna = true;
                 }
-                catch (Exception ex)
-                {
-                    MostraErrore(ex.Message);
-                }
+                catch (Exception ex) { MostraErrore(ex.Message); torna = true; } // Esce se la lampada non esiste
             }
         }
 
+        // SOTTOMENU CQRS PER TELECAMERE (CCTV)
+       
+        static void MenuCCTV()
+        {
+            bool tornaIndietro = false;
+            while (!tornaIndietro)
+            {
+                Console.Clear();
+                Console.WriteLine("--- GESTIONE TELECAMERE CCTV (CQRS) ---");
+
+                var getAllQuery = new GetAllCCTVsQuery(cctvRepo);
+                var cctvs = getAllQuery.Execute();
+
+                Console.WriteLine($"\nTotale telecamere trovate: {cctvs.Count}");
+                foreach (var c in cctvs)
+                {
+                    Console.WriteLine($"- ID: {c.Id} | Nome: {c.Name} | Device Status: {c.Status} | Rec Status: {c.CCTVState}");
+                }
+
+                Console.WriteLine("\n[A] Aggiungi Nuova Telecamera");
+                Console.WriteLine("[B] Rimuovi Telecamera");
+                Console.WriteLine("[C] Gestisci Telecamera Specifica");
+                Console.WriteLine("[R] Torna al Menu Principale");
+                Console.Write("\nAzione: ");
+
+                string azione = Console.ReadLine()?.ToUpper() ?? "";
+
+                try
+                {
+                    if (azione == "A")
+                    {
+                        Console.Write("\nInserisci il Nome della nuova telecamera (es. Giardino): ");
+                        string nuovoNome = Console.ReadLine() ?? "Telecamera Generica";
+
+                        if (string.IsNullOrWhiteSpace(nuovoNome)) nuovoNome = "Telecamera Generica";
+
+                        var addCommand = new AddCCTVCommand(cctvRepo);
+                        addCommand.Execute(nuovoNome);
+
+                        Console.WriteLine("Telecamera aggiunta! Premi un tasto.");
+                        Console.ReadKey();
+                    }
+                    else if (azione == "B")
+                    {
+                        Console.Write("Inserisci l'ID esatto della telecamera da rimuovere: ");
+                        if (Guid.TryParse(Console.ReadLine(), out Guid idToRemove))
+                        {
+                            var removeCommand = new RemoveCCTVCommand(cctvRepo);
+                            removeCommand.Execute(idToRemove);
+                            Console.WriteLine("Comando eseguito. Premi un tasto.");
+                        }
+                        else MostraErrore("Formato ID non valido.");
+                        Console.ReadKey();
+                    }
+                    else if (azione == "C")
+                    {
+                        Console.Write("Inserisci l'ID della telecamera da gestire: ");
+                        if (Guid.TryParse(Console.ReadLine(), out Guid idToManage))
+                        {
+                            GestisciSingolaCCTV(idToManage);
+                        }
+                        else MostraErrore("Formato ID non valido.");
+                    }
+                    else if (azione == "R") tornaIndietro = true;
+                }
+                catch (Exception ex) { MostraErrore(ex.Message); }
+            }
+        }
+
+        static void GestisciSingolaCCTV(Guid cctvId)
+        {
+            bool torna = false;
+            while (!torna)
+            {
+                try
+                {
+                    var getByIdQuery = new GetCCTVByIDQuery(cctvRepo);
+                    var cctv = getByIdQuery.Execute(cctvId);
+
+                    Console.Clear();
+                    Console.WriteLine($"--- GESTIONE TELECAMERA ---");
+                    Console.WriteLine($"ID: {cctv.Id}");
+                    Console.WriteLine($"Nome: {cctv.Name}");
+                    Console.WriteLine($"Stato Dispositivo: {cctv.Status} | Stato Registrazione: {cctv.CCTVState}");
+
+                    Console.WriteLine("\n[A] Vai Online (Accendi) | [B] Vai Offline (Spegni)");
+                    Console.WriteLine("[C] Inizia Registrazione | [D] Ferma Registrazione");
+                    Console.WriteLine("[E] Simula Errore        | [R] Esci");
+                    Console.Write("Azione: ");
+
+                    string azione = Console.ReadLine()?.ToUpper() ?? "";
+
+                    if (azione == "A") new SwitchOnCCTVCommand(cctvRepo).Execute(cctvId);
+                    else if (azione == "B") new SwitchOffCCTVCommand(cctvRepo).Execute(cctvId);
+                    else if (azione == "C") new StartRecordingCCTVCommand(cctvRepo).Execute(cctvId);
+                    else if (azione == "D") new StopRecordingCCTVCommand(cctvRepo).Execute(cctvId);
+                    else if (azione == "E") new SetErrorCCTVCommand(cctvRepo).Execute(cctvId);
+                    else if (azione == "R") torna = true;
+                }
+                catch (Exception ex) { MostraErrore(ex.Message); torna = true; } // Esce se la cctv viene rimossa o non trovata
+            }
+        }
+
+        // GESTIONE DISPOSITIVI STANDARD
 
         static void GestisciCaffe(CoffeeMachine m)
         {
@@ -237,22 +309,6 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                     else if (azione == "R") tornaIndietro = true;
                 }
                 catch (Exception ex) { MostraErrore(ex.Message); }
-            }
-        }
-
-        static void GestisciCCTV(CCTV c)
-        {
-            bool torna = false;
-            while (!torna)
-            {
-                Console.Clear();
-                Console.WriteLine($"--- CCTV: {c.Name} --- Status: {c.Status}");
-                Console.WriteLine("[A] On/Off | [B] Rec | [C] Stop | [R] Esci");
-                string azione = Console.ReadLine()?.ToUpper() ?? "";
-                if (azione == "A") c.TurnOnOrOff();
-                else if (azione == "B") c.StartRecording();
-                else if (azione == "C") c.StopRecording();
-                else if (azione == "R") torna = true;
             }
         }
 
@@ -287,7 +343,7 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                 try
                 {
                     if (azione == "A") ac.TurnOnOrOff();
-                    else if (azione == "B") { Console.Write("Gradi: "); ac.SetTemperature(double.Parse(Console.ReadLine())); }
+                    else if (azione == "B") { Console.Write("Gradi: "); ac.SetTemperature(double.Parse(Console.ReadLine() ?? "20")); }
                     else if (azione == "R") torna = true;
                 }
                 catch (Exception ex) { MostraErrore(ex.Message); }

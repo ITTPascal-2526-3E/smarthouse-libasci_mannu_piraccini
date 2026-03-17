@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV.Repository
 {
-    internal interface ICCTVRepository
+    public interface ICCTVRepository
     {
             void Add(CCTV cctv);
             void Update(CCTV cctv);
             void Delete(CCTV cctv);
-            CCTV GetById(int id);
+            CCTV GetById(Guid id);
             List<CCTV> GetAll();
     }
 }
