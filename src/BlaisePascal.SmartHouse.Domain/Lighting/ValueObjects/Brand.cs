@@ -15,5 +15,11 @@ namespace BlaisePascal.SmartHouse.Domain.Lighting.ValueObjects
             if (!string.IsNullOrWhiteSpace(name))
                 Name = name.ToLower();
         }
+
+        
+        public override string ToString()
+        {
+            return Name ?? "Brand Sconosciuto"; 
+        }
     }
 }

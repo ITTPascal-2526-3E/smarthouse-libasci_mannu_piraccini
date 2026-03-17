@@ -95,7 +95,7 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                 Console.WriteLine($"\nTotale lampade trovate: {lamps.Count}");
                 foreach (var l in lamps)
                 {
-                    Console.WriteLine($"- ID: {l.id_lamp} | Brand: {l.brand} | Stato: {(l.IsOn ? "ON" : "OFF")} | Lum: {l.current_brightness_percentage}%");
+                    Console.WriteLine($"- ID: {l.id_lamp} | Brand: {l.brand?.Name ?? "Brand non riconosciuto"} | Stato: {(l.IsOn ? "ON" : "OFF")} | Lum: {l.current_brightness_percentage}%");
                 }
 
                 Console.WriteLine("\n[A] Aggiungi Nuova Lampada");
@@ -110,10 +110,20 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                 {
                     if (azione == "A")
                     {
-                        Console.WriteLine("\nAggiunta lampada 'Osram' in corso...");
+                        // MODIFICA: Chiediamo all'utente il nome del brand
+                        Console.Write("\nInserisci il Brand della nuova lampada: ");
+                        string nuovoBrand = Console.ReadLine();
+
+                        if (string.IsNullOrWhiteSpace(nuovoBrand))
+                        {
+                            nuovoBrand = "Generico";
+                        }
+
+                        Console.WriteLine($"\nAggiunta lampada '{nuovoBrand}' in corso...");
 
                         var addCommand = new AddLampCommand(lampRepo);
-                        addCommand.Execute("Osram", "LED", 10.0, 1050, true, "E27");
+                        // Passiamo la variabile invece della scritta "Osram"
+                        addCommand.Execute(nuovoBrand, "LED", 10.0, 1050, true, "E27");
 
                         Console.WriteLine("Fatto! Premi un tasto.");
                         Console.ReadKey();
@@ -169,7 +179,8 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
                     Console.Clear();
                     Console.WriteLine($"--- GESTIONE LAMPADA ---");
                     Console.WriteLine($"ID: {lamp.id_lamp}");
-                    Console.WriteLine($"Brand: {lamp.brand} | Tipo: {lamp.TypeOfLamp}");
+                    // MODIFICA: Inserito il controllo anti-null anche qui
+                    Console.WriteLine($"Brand: {lamp.brand?.Name ?? "Brand non riconosciuto"} | Tipo: {lamp.TypeOfLamp}");
                     Console.WriteLine($"Stato: {(lamp.IsOn ? "ACCESA" : "SPENTA")} | Luminosità: {lamp.current_brightness_percentage}%");
                     Console.WriteLine("\n[A] Accendi | [B] Spegni | [C] Cambia Intensità (Dimmer) | [R] Esci");
                     Console.Write("Azione: ");
@@ -205,7 +216,7 @@ namespace BlaisePascal.SmartHouse.ConsoleApp
             }
         }
 
-       
+
         static void GestisciCaffe(CoffeeMachine m)
         {
             bool tornaIndietro = false;
